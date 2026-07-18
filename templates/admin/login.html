@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    colors: { bg:'#0B0F14', surface:'#111826', line:'#22303F', cyan:'#00E5C7', ink:'#E6EAF2', muted:'#8A93A6' },
+    fontFamily: { mono:['"JetBrains Mono"','monospace'], body:['Inter','sans-serif'] },
+  }}};
+</script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-bg text-ink font-body min-h-screen flex items-center justify-center px-6">
+  <div class="w-full max-w-sm">
+    <p class="font-mono text-cyan text-sm mb-2 text-center">~/admin</p>
+    <h1 class="font-mono text-xl text-center mb-8">Admin Login</h1>
+
+    <form method="POST" class="rounded-lg border border-line bg-surface/60 p-6 space-y-5">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <div>
+        <label class="admin-label" for="password">password</label>
+        <input class="admin-input" type="password" id="password" name="password" required autofocus>
+      </div>
+      {% if error %}
+      <p class="font-mono text-xs text-amber">✗ {{ error }}</p>
+      {% endif %}
+      <button type="submit" class="admin-btn admin-btn-primary w-full justify-center">login</button>
+    </form>
+
+    <p class="font-mono text-[11px] text-muted text-center mt-6">
+      ← <a href="{{ url_for('index') }}" class="hover:text-cyan">back to site</a>
+    </p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,198 @@
+:root {
+  --cyan: #00E5C7;
+  --violet: #7C5CFF;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--cyan);
+  color: #0B0F14;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #0B0F14; }
+::-webkit-scrollbar-thumb { background: #22303F; border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: #00E5C7; }
+
+/* Nav on scroll */
+#site-nav.nav-scrolled {
+  background: rgba(11, 15, 20, 0.75);
+  backdrop-filter: blur(10px);
+  border-color: #22303F;
+}
+
+/* Ambient background orbs */
+.glow-orb {
+  position: fixed;
+  width: 45vw;
+  height: 45vw;
+  max-width: 640px;
+  max-height: 640px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.16;
+  z-index: 0;
+  pointer-events: none;
+}
+.glow-orb-cyan {
+  background: var(--cyan);
+  top: -10%;
+  left: -10%;
+}
+.glow-orb-violet {
+  background: var(--violet);
+  bottom: -10%;
+  right: -10%;
+}
+
+/* Glow shadows for interactive elements */
+.shadow-glow-cyan { box-shadow: 0 0 32px rgba(0, 229, 199, 0.35); }
+.shadow-glow-cyan-sm { box-shadow: 0 0 24px rgba(0, 229, 199, 0.12); }
+.shadow-glow-violet-sm { box-shadow: 0 0 24px rgba(124, 92, 255, 0.14); }
+
+/* Typewriter cursor */
+.typed-cursor {
+  color: var(--cyan);
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* Slow bounce for scroll cue */
+@keyframes bounce-slow {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 8px); }
+}
+.animate-bounce-slow { animation: bounce-slow 2.2s ease-in-out infinite; }
+
+/* Scroll-reveal (JS toggles .revealed via IntersectionObserver) */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .animate-bounce-slow { animation: none; }
+  .typed-cursor { animation: none; }
+}
+
+/* Font weight helpers (Tailwind CDN default scale is fine, but display face
+   benefits from slightly custom weights used in the markup) */
+.font-700 { font-weight: 700; }
+.font-600 { font-weight: 600; }
+
+/* Fallbacks in case the Tailwind CDN build doesn't include these utilities */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+/* Resource filter active state (JS also toggles classes; this covers the initial paint) */
+.resource-filter-btn.active {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Admin panel                                                            */
+/* ---------------------------------------------------------------------- */
+.admin-input {
+  width: 100%;
+  background: #111826;
+  border: 1px solid #22303F;
+  border-radius: 6px;
+  padding: 0.65rem 1rem;
+  color: #E6EAF2;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.875rem;
+}
+.admin-input:focus {
+  outline: none;
+  border-color: var(--cyan);
+}
+.admin-label {
+  display: block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  color: #8A93A6;
+  margin-bottom: 0.4rem;
+}
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.admin-table th {
+  text-align: left;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8A93A6;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #22303F;
+}
+.admin-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #1a2230;
+  color: #E6EAF2;
+}
+.admin-table tr:hover td {
+  background: rgba(0, 229, 199, 0.04);
+}
+.admin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+.admin-btn-primary {
+  background: var(--cyan);
+  color: #0B0F14;
+  border: none;
+}
+.admin-btn-primary:hover { box-shadow: 0 0 24px rgba(0, 229, 199, 0.35); }
+.admin-btn-ghost {
+  background: transparent;
+  color: #8A93A6;
+  border: 1px solid #22303F;
+}
+.admin-btn-ghost:hover { color: #E6EAF2; border-color: #8A93A6; }
+.admin-btn-danger {
+  background: transparent;
+  color: #FF6B6B;
+  border: 1px solid rgba(255, 107, 107, 0.35);
+}
+.admin-btn-danger:hover { background: rgba(255, 107, 107, 0.1); }

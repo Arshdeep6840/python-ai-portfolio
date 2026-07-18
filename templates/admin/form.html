@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ 'New' if is_new else 'Edit' }} {{ config.label }} — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    colors: { bg:'#0B0F14', surface:'#111826', line:'#22303F', cyan:'#00E5C7', violet:'#7C5CFF', ink:'#E6EAF2', muted:'#8A93A6' },
+    fontFamily: { mono:['"JetBrains Mono"','monospace'], display:['"Space Grotesk"','sans-serif'], body:['Inter','sans-serif'] },
+  }}};
+</script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-bg text-ink font-body min-h-screen">
+
+<header class="border-b border-line">
+  <nav class="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="{{ url_for('admin.dashboard') }}" class="font-mono text-sm"><span class="text-cyan">~/</span>admin</a>
+    <a href="{{ url_for('index') }}" class="font-mono text-xs text-muted hover:text-cyan transition-colors">view site ↗</a>
+  </nav>
+</header>
+
+<main class="max-w-3xl mx-auto px-6 py-12">
+  <a href="{{ url_for('admin.list_entity', entity=entity) }}" class="font-mono text-xs text-muted hover:text-cyan">← {{ config.label }}</a>
+  <h1 class="font-display text-2xl font-600 mt-2 mb-8">{{ 'New' if is_new else 'Edit' }} {{ config.label[:-1] if config.label.endswith('s') else config.label }}</h1>
+
+  <form method="POST" enctype="multipart/form-data" class="space-y-6">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+    {% for field in config.fields %}
+    <div>
+      <label class="admin-label" for="{{ field.name }}">{{ field.label }}{% if field.required %} *{% endif %}</label>
+
+      {% if field.type == 'textarea' %}
+        <textarea class="admin-input" id="{{ field.name }}" name="{{ field.name }}" rows="4"
+                  {% if field.required %}required{% endif %}>{{ record.get(field.name, '') }}</textarea>
+
+      {% elif field.type == 'checkbox' %}
+        <input type="checkbox" id="{{ field.name }}" name="{{ field.name }}" class="w-4 h-4 accent-cyan"
+               {% if record.get(field.name) %}checked{% endif %}>
+
+      {% elif field.type == 'select' %}
+        <select class="admin-input" id="{{ field.name }}" name="{{ field.name }}">
+          {% for choice in field.choices %}
+          <option value="{{ choice }}" {% if record.get(field.name) == choice %}selected{% endif %}>{{ choice }}</option>
+          {% endfor %}
+        </select>
+
+      {% elif field.type == 'file' %}
+        <input type="file" id="{{ field.name }}" name="{{ field.name }}" class="admin-input">
+        {% if record.get(field.name) %}
+        <p class="font-mono text-[11px] text-muted mt-1">
+          current: <a class="text-cyan hover:underline" href="{{ url_for('static', filename=record[field.name]) }}" target="_blank">{{ record[field.name] }}</a>
+          — choose a new file to replace it
+        </p>
+        {% endif %}
+
+      {% elif field.type == 'number' %}
+        <input type="number" class="admin-input" id="{{ field.name }}" name="{{ field.name }}" value="{{ record.get(field.name, 0) }}">
+
+      {% else %}
+        <input type="text" class="admin-input" id="{{ field.name }}" name="{{ field.name }}"
+               value="{{ record.get(field.name, '') }}" {% if field.required %}required{% endif %}>
+      {% endif %}
+    </div>
+    {% endfor %}
+
+    <div class="flex gap-3 pt-4">
+      <button type="submit" class="admin-btn admin-btn-primary">save</button>
+      <a href="{{ url_for('admin.list_entity', entity=entity) }}" class="admin-btn admin-btn-ghost">cancel</a>
+    </div>
+  </form>
+</main>
+
+</body>
+</html>

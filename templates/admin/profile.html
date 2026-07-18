@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    colors: { bg:'#0B0F14', surface:'#111826', line:'#22303F', cyan:'#00E5C7', violet:'#7C5CFF', ink:'#E6EAF2', muted:'#8A93A6' },
+    fontFamily: { mono:['"JetBrains Mono"','monospace'], display:['"Space Grotesk"','sans-serif'], body:['Inter','sans-serif'] },
+  }}};
+</script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-bg text-ink font-body min-h-screen">
+
+<header class="border-b border-line">
+  <nav class="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="{{ url_for('admin.dashboard') }}" class="font-mono text-sm"><span class="text-cyan">~/</span>admin</a>
+    <a href="{{ url_for('index') }}" class="font-mono text-xs text-muted hover:text-cyan transition-colors">view site ↗</a>
+  </nav>
+</header>
+
+<main class="max-w-3xl mx-auto px-6 py-12">
+  <a href="{{ url_for('admin.dashboard') }}" class="font-mono text-xs text-muted hover:text-cyan">← dashboard</a>
+  <h1 class="font-display text-2xl font-600 mt-2 mb-8">Profile</h1>
+
+  {% if saved %}
+  <p class="font-mono text-xs text-cyan mb-6">✓ saved</p>
+  {% endif %}
+
+  <form method="POST" class="space-y-6">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+    <div>
+      <label class="admin-label" for="name">Name</label>
+      <input class="admin-input" id="name" name="name" value="{{ profile.name }}">
+    </div>
+
+    <div>
+      <label class="admin-label" for="roles">Roles (comma-separated — shown in the typewriter line)</label>
+      <textarea class="admin-input" id="roles" name="roles" rows="2">{{ profile.roles }}</textarea>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-6">
+      <div>
+        <label class="admin-label" for="location">Location</label>
+        <input class="admin-input" id="location" name="location" value="{{ profile.location }}">
+      </div>
+      <div>
+        <label class="admin-label" for="email">Email</label>
+        <input class="admin-input" id="email" name="email" value="{{ profile.email }}">
+      </div>
+      <div>
+        <label class="admin-label" for="contact_number">Phone (shown on site if set)</label>
+        <input class="admin-input" id="contact_number" name="contact_number" value="{{ profile.contact_number }}">
+      </div>
+      <div>
+        <label class="admin-label" for="resume_file">Resume filename (in static/assets/)</label>
+        <input class="admin-input" id="resume_file" name="resume_file" value="{{ profile.resume_file }}">
+      </div>
+      <div>
+        <label class="admin-label" for="github">GitHub URL</label>
+        <input class="admin-input" id="github" name="github" value="{{ profile.github }}">
+      </div>
+      <div>
+        <label class="admin-label" for="linkedin">LinkedIn URL</label>
+        <input class="admin-input" id="linkedin" name="linkedin" value="{{ profile.linkedin }}">
+      </div>
+    </div>
+
+    <div>
+      <label class="admin-label" for="summary">Summary</label>
+      <textarea class="admin-input" id="summary" name="summary" rows="5">{{ profile.summary }}</textarea>
+    </div>
+
+    <div>
+      <p class="admin-label mb-3">Stats (shown in the About terminal panel)</p>
+      <div class="grid sm:grid-cols-2 gap-4">
+        {% for n in [1, 2, 3, 4] %}
+        <div class="rounded-lg border border-line p-4 space-y-3">
+          <div>
+            <label class="admin-label" for="stat{{ n }}_label">Label {{ n }}</label>
+            <input class="admin-input" id="stat{{ n }}_label" name="stat{{ n }}_label" value="{{ profile['stat' ~ n ~ '_label'] }}">
+          </div>
+          <div>
+            <label class="admin-label" for="stat{{ n }}_value">Value {{ n }}</label>
+            <input class="admin-input" id="stat{{ n }}_value" name="stat{{ n }}_value" value="{{ profile['stat' ~ n ~ '_value'] }}">
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="flex gap-3 pt-4">
+      <button type="submit" class="admin-btn admin-btn-primary">save</button>
+    </div>
+  </form>
+</main>
+
+</body>
+</html>
