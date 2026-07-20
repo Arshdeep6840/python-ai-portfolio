@@ -76,12 +76,14 @@
             contact</a>
         </div>
         <div class="flex items-center gap-3">
+          {% if profile.resume_file_path %}
           <a
-            href="{{ url_for('static', filename='assets/' + profile.resume_file) }}"
+            href="{{ url_for('static', filename=profile.resume_file_path) }}"
             download
             class="hidden sm:inline-block font-mono text-xs px-4 py-2 rounded border border-cyan/40 text-cyan hover:bg-cyan hover:text-bg transition-colors">
             ↓ resume
           </a>
+          {% endif %}
           <a href="{{ url_for('admin.login') }}"
             class="hidden sm:inline-block font-mono text-xs px-4 py-2 rounded border border-cyan/40 text-cyan hover:bg-cyan hover:text-bg transition-colors">
             ADMIN
@@ -122,15 +124,10 @@
           <a href="#contact"
             class="nav-mobile-link hover:text-cyan transition-colors">06 ·
             contact</a>
-          <a
-            href="{{ url_for('static', filename='assets/' + profile.resume_file) }}"
-            download
-            class="sm:hidden text-cyan">↓ resume</a>
           {% if profile.resume_file_path %}
           <a href="{{ url_for('static', filename=profile.resume_file_path) }}"
-            download>
-            Download Resume
-          </a>
+            download
+            class="sm:hidden text-cyan">↓ resume</a>
           {% endif %}
         </div>
       </div>

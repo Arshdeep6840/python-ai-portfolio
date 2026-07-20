@@ -31,9 +31,8 @@ def create_app():
     app.register_blueprint(admin_bp)
 
     with app.app_context():
-        # db.create_all()
-        pass
-        # _seed_if_empty()
+        db.create_all()
+        _seed_if_empty()
 
     register_routes(app)
     return app
