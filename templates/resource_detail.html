@@ -92,10 +92,18 @@
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowfullscreen></iframe>
         </div>
-      {% elif 'drive.google.com' in r.external_url %}
-        <div class="aspect-video">
-          <iframe class="w-full h-full rounded" src="{{ r.external_url.replace('/view', '/preview') }}" allow="autoplay"></iframe>
-        </div>
+            {% elif r.external_url and 'drive.google.com/file/d/' in r.external_url %}
+            <div class="aspect-video">
+                <iframe
+                    class="w-full h-full rounded"
+                    src="{{ r.external_url.replace('/view', '/preview') }}"
+                    title="Google Drive Preview"
+                    loading="lazy"
+                    allow="autoplay"
+                    allowfullscreen
+                    referrerpolicy="strict-origin-when-cross-origin">
+                </iframe>
+            </div>
       {% else %}
         <p class="text-muted">
           Watch here: <a class="text-cyan hover:underline break-all" href="{{ r.external_url }}" target="_blank" rel="noopener">{{ r.external_url }}</a>
