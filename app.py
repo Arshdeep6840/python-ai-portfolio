@@ -4,6 +4,8 @@ from email.mime.text import MIMEText
 
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, jsonify
+from flask_migrate import Migrate
+
 
 from models import db, Profile, SkillGroup, Project, Experience, Education, Certification, Resource
 
@@ -13,6 +15,7 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 def create_app():
     app = Flask(__name__)
+    
     app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-secret-change-me")
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
         "DATABASE_URL", f"sqlite:///{os.path.join(BASE_DIR, 'instance', 'portfolio.db')}"
@@ -22,13 +25,15 @@ def create_app():
 
     os.makedirs(os.path.join(BASE_DIR, "instance"), exist_ok=True)
     db.init_app(app)
+    migrate = Migrate(app, db)
 
     from admin import admin_bp
     app.register_blueprint(admin_bp)
 
     with app.app_context():
-        db.create_all()
-        _seed_if_empty()
+        # db.create_all()
+        pass
+        # _seed_if_empty()
 
     register_routes(app)
     return app

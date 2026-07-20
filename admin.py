@@ -7,7 +7,7 @@ from flask import (
 from models import db, Profile
 from admin_utils import (
     check_admin_password, login_required, get_csrf_token, validate_csrf,
-    ENTITY_CONFIGS, populate_from_form, delete_upload,
+    ENTITY_CONFIGS, populate_from_form, delete_upload,save_upload
 )
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin", template_folder="templates/admin")
@@ -64,13 +64,21 @@ def profile():
             "stat3_label", "stat3_value", "stat4_label", "stat4_value",
         ]:
             setattr(prof, field, request.form.get(field, "").strip())
+
+        # Handle resume upload
+        file_storage = request.files.get("upload_resume")
+        if file_storage and file_storage.filename:
+            upload_folder = os.path.join(current_app.static_folder, "uploads", "resources")
+            if prof.resume_file_path:
+                delete_upload(current_app.static_folder, prof.resume_file_path)
+            new_path = save_upload(file_storage, upload_folder)
+            prof.resume_file_path = new_path
+        # if no new file chosen, leave prof.resume_file_path untouched
+
         db.session.commit()
         saved = True
 
-    return render_template("admin/profile.html", profile=prof, csrf_token=get_csrf_token(), saved=saved)
-
-
-# ---------------------------------------------------------------------------
+    return render_template("admin/profile.html", profile=prof, csrf_token=get_csrf_token(), saved=saved)# ---------------------------------------------------------------------------
 # Generic CRUD for the rest of the content types
 # ---------------------------------------------------------------------------
 

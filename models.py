@@ -4,7 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-
 def split_csv(value):
     return [v.strip() for v in (value or "").split(",") if v.strip()]
 
@@ -25,6 +24,7 @@ class Profile(db.Model):
     linkedin = db.Column(db.String(255), default="")
     resume_file = db.Column(db.String(255), default="")
     summary = db.Column(db.Text, default="")
+    resume_file_path = db.Column(db.String(255), default="") # relevent to Static
 
     stat1_label = db.Column(db.String(80), default="")
     stat1_value = db.Column(db.String(20), default="")
@@ -46,6 +46,7 @@ class Profile(db.Model):
             "linkedin": self.linkedin,
             "resume_file": self.resume_file,
             "summary": self.summary,
+            'resume_file_path': self.resume_file_path,
             "stats": [
                 {"label": self.stat1_label, "value": self.stat1_value},
                 {"label": self.stat2_label, "value": self.stat2_value},

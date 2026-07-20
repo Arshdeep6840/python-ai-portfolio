@@ -75,7 +75,27 @@
       <label class="admin-label" for="summary">Summary</label>
       <textarea class="admin-input" id="summary" name="summary" rows="5">{{ profile.summary }}</textarea>
     </div>
+   <div>
+    <label class="admin-label" for="upload_resume">Upload Resume</label>
+       <input
+          type="file"
+          id="upload_resume"
+          name="upload_resume"
+          class="admin-input"
+          accept=".pdf,.doc,.docx"
+        >
 
+        {% if profile.resume_file_path %}
+            <p class="mt-2 text-sm text-green-500">
+                Current Resume:
+                <a href="{{ url_for('static', filename=profile.resume_file_path) }}"
+                  target="_blank"
+                  class="underline">
+                    View Resume
+                </a>
+            </p>
+        {% endif %}
+    </div>
     <div>
       <p class="admin-label mb-3">Stats (shown in the About terminal panel)</p>
       <div class="grid sm:grid-cols-2 gap-4">
@@ -89,6 +109,8 @@
             <label class="admin-label" for="stat{{ n }}_value">Value {{ n }}</label>
             <input class="admin-input" id="stat{{ n }}_value" name="stat{{ n }}_value" value="{{ profile['stat' ~ n ~ '_value'] }}">
           </div>
+
+
         </div>
         {% endfor %}
       </div>
