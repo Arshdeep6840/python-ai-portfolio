@@ -1,5 +1,6 @@
 import os
 import smtplib
+import requests
 from email.mime.text import MIMEText
 
 from dotenv import load_dotenv
@@ -85,11 +86,50 @@ def register_routes(app):
             profile=profile.to_dict() if profile else {},
         )
 
+    # @app.route("/contact", methods=["POST"])
+    # def contact():
+    #     """Handle the contact form. Sends an email if SMTP env vars are set,
+    #     otherwise logs the message server-side so nothing is silently lost."""
+    #     data = request.get_json(silent=True) or request.form
+    #     name = (data.get("name") or "").strip()
+    #     email = (data.get("email") or "").strip()
+    #     message = (data.get("message") or "").strip()
+
+    #     if not name or not email or not message:
+    #         return jsonify(ok=False, error="All fields are required."), 400
+
+    #     mail_user = os.environ.get("MAIL_USER")
+    #     mail_pass = os.environ.get("MAIL_PASS")
+    #     mail_to = os.environ.get("MAIL_TO", mail_user)
+
+    #     if mail_user and mail_pass and mail_to:
+    #         try:
+    #             body = f"From: {name} <{email}>\n\n{message}"
+    #             msg = MIMEText(body)
+    #             msg["Subject"] = f"Portfolio contact from {name}"
+    #             msg["From"] = mail_user
+    #             msg["To"] = mail_to
+    #             msg["Reply-To"] = email
+
+    #             with smtplib.SMTP("smtp.gmail.com", 587, timeout=15) as server:
+    #                 server.ehlo()
+    #                 server.starttls()
+    #                 server.ehlo()
+    #                 server.login(mail_user, mail_pass)
+    #                 server.sendmail(mail_user, [mail_to], msg.as_string())
+    #         except Exception as exc:  # pragma: no cover - best-effort delivery
+    #             app.logger.error("Failed to send contact email: %s", exc)
+    #             return jsonify(ok=False, error="Message received but email delivery failed."), 502
+    #     else:
+    #         app.logger.info("Contact form (no SMTP configured): %s <%s> — %s", name, email, message)
+
+    #     return jsonify(ok=True)
     @app.route("/contact", methods=["POST"])
     def contact():
-        """Handle the contact form. Sends an email if SMTP env vars are set,
-        otherwise logs the message server-side so nothing is silently lost."""
+        """Handle contact form using Resend API."""
+
         data = request.get_json(silent=True) or request.form
+
         name = (data.get("name") or "").strip()
         email = (data.get("email") or "").strip()
         message = (data.get("message") or "").strip()
@@ -97,30 +137,55 @@ def register_routes(app):
         if not name or not email or not message:
             return jsonify(ok=False, error="All fields are required."), 400
 
-        mail_user = os.environ.get("MAIL_USER")
-        mail_pass = os.environ.get("MAIL_PASS")
-        mail_to = os.environ.get("MAIL_TO", mail_user)
+        api_key = os.environ.get("RESEND_API_KEY")
+        mail_to = os.environ.get("MAIL_TO")
 
-        if mail_user and mail_pass and mail_to:
-            try:
-                body = f"From: {name} <{email}>\n\n{message}"
-                msg = MIMEText(body)
-                msg["Subject"] = f"Portfolio contact from {name}"
-                msg["From"] = mail_user
-                msg["To"] = mail_to
-                msg["Reply-To"] = email
+        if not api_key or not mail_to:
+            app.logger.error("Missing RESEND_API_KEY or MAIL_TO")
+            return jsonify(ok=False, error="Email service is not configured."), 500
 
-                with smtplib.SMTP("smtp.gmail.com", 587, timeout=15) as server:
-                    server.ehlo()
-                    server.starttls()
-                    server.ehlo()
-                    server.login(mail_user, mail_pass)
-                    server.sendmail(mail_user, [mail_to], msg.as_string())
-            except Exception as exc:  # pragma: no cover - best-effort delivery
-                app.logger.error("Failed to send contact email: %s", exc)
-                return jsonify(ok=False, error="Message received but email delivery failed."), 502
-        else:
-            app.logger.info("Contact form (no SMTP configured): %s <%s> — %s", name, email, message)
+        payload = {
+            "from": "Portfolio Contact <onboarding@resend.dev>",
+            "to": [mail_to],
+            "subject": f"Portfolio Contact from {name}",
+            "reply_to": email,
+            "text": f"""
+        New message from your portfolio
+
+        Name: {name}
+        Email: {email}
+
+        Message:
+        {message}
+        """
+            }
+
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json"
+        }
+
+        try:
+            response = requests.post(
+                "https://api.resend.com/emails",
+                json=payload,
+                headers=headers,
+                timeout=15
+            )
+
+            if response.status_code not in (200, 201):
+                app.logger.error("Resend Error: %s", response.text)
+                return jsonify(
+                    ok=False,
+                    error="Email delivery failed."
+                ), 502
+
+        except Exception as exc:
+            app.logger.exception(exc)
+            return jsonify(
+                ok=False,
+                error="Unable to send email."
+            ), 502
 
         return jsonify(ok=True)
 

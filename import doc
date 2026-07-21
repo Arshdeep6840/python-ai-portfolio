@@ -1,0 +1,7 @@
+ADMIN_PASSWORD = arsh@python17092
+SECRET_KEY =    wxdegbhnhjdfg.servghsbrc.ecwvntdsrexqAsCTHBD.RVAWSTRBTD
+# MAIL_USER = arshdeepsingh17092@gmail.com
+# MAIL_PASS = ikqg nvey qrba ifqi
+MAIL_TO = bhangua388@gmail.com
+RESEND_API_KEY=re_GtVAyCXi_DC9WnW84q4Uxa5ckSQVEzS34
+# MAIL_TO=your_email@gmail.com
