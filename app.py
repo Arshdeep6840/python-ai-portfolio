@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, request, jsonify
 from flask_migrate import Migrate
 
-
 from models import db, Profile, SkillGroup, Project, Experience, Education, Certification, Resource
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

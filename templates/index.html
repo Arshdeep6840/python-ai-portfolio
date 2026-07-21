@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ profile.name }} — {{ profile.roles[0] }}</title>
+<link rel="icon" type="image/png" sizes="16x16"
+      href="{{ url_for('static', filename='img/icon.png') }}">
+
+<link rel="icon" type="image/png" sizes="32x32"
+      href="{{ url_for('static', filename='img/favicon-32.png') }}">
+
+<link rel="icon" type="image/png" sizes="192x192"
+      href="{{ url_for('static', filename='img/favicon-192.png') }}">
+
+<link rel="icon" type="image/png" sizes="512x512"
+      href="{{ url_for('static', filename='img/favicon-512.png') }}">
     <meta name="description" content="{{ profile.summary }}">
 
     <!-- Fonts -->
