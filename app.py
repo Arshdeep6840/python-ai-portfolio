@@ -110,7 +110,7 @@ def register_routes(app):
                 msg["To"] = mail_to
                 msg["Reply-To"] = email
 
-                with smtplib.SMTP("smtp.gmail.com", 587, timeout=20) as server:
+                with smtplib.SMTP("smtp.gmail.com", 587, timeout=15) as server:
                     server.ehlo()
                     server.starttls()
                     server.ehlo()
