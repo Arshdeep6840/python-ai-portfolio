@@ -110,7 +110,10 @@ def register_routes(app):
                 msg["To"] = mail_to
                 msg["Reply-To"] = email
 
-                with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+                with smtplib.SMTP("smtp.gmail.com", 587, timeout=20) as server:
+                    server.ehlo()
+                    server.starttls()
+                    server.ehlo()
                     server.login(mail_user, mail_pass)
                     server.sendmail(mail_user, [mail_to], msg.as_string())
             except Exception as exc:  # pragma: no cover - best-effort delivery
