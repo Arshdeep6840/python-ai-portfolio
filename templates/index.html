@@ -199,7 +199,11 @@
       <div class="relative flex items-center justify-center">
 
         <!-- Brain Image -->
-        <img src="{{ url_for('static', filename='img/final_brain.png') }}" alt="AI Brain"
+        <img src="{{ url_for('static', filename='img/final_brain.webp') }}" 
+          alt="AI Brain"
+          loading = "eager"
+          fetchpriority="high"
+          decoding="async"
           class="hero-brain">
 
       </div>
