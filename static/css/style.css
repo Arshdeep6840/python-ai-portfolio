@@ -1,198 +1,1225 @@
+/* ==========================================================
+   GLOBAL
+========================================================== */
+
 :root {
-  --cyan: #00E5C7;
-  --violet: #7C5CFF;
+    --cyan: #00E5C7;
+    --violet: #7C5CFF;
+
+    --bg: #0B0F14;
+    --card: #111826;
+    --border: #22303F;
+    --text: #E6EAF2;
+    --muted: #8A93A6;
+
+    --transition: .35s ease;
 }
 
-html {
-  scroll-behavior: smooth;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-body {
-  overflow-x: hidden;
+html{
+    scroll-behavior:smooth;
 }
 
-::selection {
-  background: var(--cyan);
-  color: #0B0F14;
+body{
+
+    background:var(--bg);
+    color:var(--text);
+
+    overflow-x:hidden;
+
+    font-family:Inter,sans-serif;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: #0B0F14; }
-::-webkit-scrollbar-thumb { background: #22303F; border-radius: 6px; }
-::-webkit-scrollbar-thumb:hover { background: #00E5C7; }
+/* ==========================================================
+   Selection
+========================================================== */
 
-/* Nav on scroll */
-#site-nav.nav-scrolled {
-  background: rgba(11, 15, 20, 0.75);
-  backdrop-filter: blur(10px);
-  border-color: #22303F;
+::selection{
+    background:var(--cyan);
+    color:#000;
 }
 
-/* Ambient background orbs */
-.glow-orb {
-  position: fixed;
-  width: 45vw;
-  height: 45vw;
-  max-width: 640px;
-  max-height: 640px;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.16;
-  z-index: 0;
-  pointer-events: none;
-}
-.glow-orb-cyan {
-  background: var(--cyan);
-  top: -10%;
-  left: -10%;
-}
-.glow-orb-violet {
-  background: var(--violet);
-  bottom: -10%;
-  right: -10%;
+/* ==========================================================
+   Scrollbar
+========================================================== */
+
+::-webkit-scrollbar{
+    width:10px;
 }
 
-/* Glow shadows for interactive elements */
-.shadow-glow-cyan { box-shadow: 0 0 32px rgba(0, 229, 199, 0.35); }
-.shadow-glow-cyan-sm { box-shadow: 0 0 24px rgba(0, 229, 199, 0.12); }
-.shadow-glow-violet-sm { box-shadow: 0 0 24px rgba(124, 92, 255, 0.14); }
-
-/* Typewriter cursor */
-.typed-cursor {
-  color: var(--cyan);
-  animation: blink 1s steps(1) infinite;
-}
-@keyframes blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
+::-webkit-scrollbar-track{
+    background:#0B0F14;
 }
 
-/* Slow bounce for scroll cue */
-@keyframes bounce-slow {
-  0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, 8px); }
-}
-.animate-bounce-slow { animation: bounce-slow 2.2s ease-in-out infinite; }
+::-webkit-scrollbar-thumb{
 
-/* Scroll-reveal (JS toggles .revealed via IntersectionObserver) */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.reveal.revealed {
-  opacity: 1;
-  transform: translateY(0);
+    background:#22303F;
+    border-radius:8px;
+
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .animate-bounce-slow { animation: none; }
-  .typed-cursor { animation: none; }
+::-webkit-scrollbar-thumb:hover{
+
+    background:var(--cyan);
+
 }
 
-/* Font weight helpers (Tailwind CDN default scale is fine, but display face
-   benefits from slightly custom weights used in the markup) */
-.font-700 { font-weight: 700; }
-.font-600 { font-weight: 600; }
+/* ==========================================================
+   Cursor Glow
+========================================================== */
 
-/* Fallbacks in case the Tailwind CDN build doesn't include these utilities */
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.aspect-video {
-  aspect-ratio: 16 / 9;
+#cursor-glow{
+
+    position:fixed;
+
+    width:320px;
+    height:320px;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    background:
+    radial-gradient(circle,
+    rgba(0,229,199,.12),
+    transparent 70%);
+
+    transform:translate(-50%,-50%);
+
+    filter:blur(65px);
+
+    z-index:0;
+
+    transition:
+
+    left .08s linear,
+    top .08s linear;
+
 }
 
-a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
-  outline: 2px solid var(--cyan);
-  outline-offset: 2px;
+/* ==========================================================
+   Ambient Orbs
+========================================================== */
+
+.glow-orb{
+
+    position:fixed;
+
+    width:40vw;
+    height:40vw;
+
+    max-width:600px;
+    max-height:600px;
+
+    border-radius:50%;
+
+    filter:blur(130px);
+
+    opacity:.10;
+
+    pointer-events:none;
+
+    z-index:0;
+
 }
 
-/* Resource filter active state (JS also toggles classes; this covers the initial paint) */
-.resource-filter-btn.active {
-  border-color: var(--cyan);
-  color: var(--cyan);
+.glow-orb-cyan{
+
+    background:var(--cyan);
+
+    top:-10%;
+    left:-10%;
+
 }
 
-/* ---------------------------------------------------------------------- */
-/* Admin panel                                                            */
-/* ---------------------------------------------------------------------- */
-.admin-input {
-  width: 100%;
-  background: #111826;
-  border: 1px solid #22303F;
-  border-radius: 6px;
-  padding: 0.65rem 1rem;
-  color: #E6EAF2;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.875rem;
+.glow-orb-violet{
+
+    background:var(--violet);
+
+    bottom:-10%;
+    right:-10%;
+
 }
-.admin-input:focus {
-  outline: none;
-  border-color: var(--cyan);
+
+/* ==========================================================
+   Navbar
+========================================================== */
+
+#site-nav{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+
+    z-index:1000;
+
+    background:
+    rgba(11,15,20,.18);
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+
+    border-bottom:
+
+    1px solid rgba(255,255,255,.05);
+
+    transition:all .35s ease;
+
 }
-.admin-label {
-  display: block;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.75rem;
-  color: #8A93A6;
-  margin-bottom: 0.4rem;
+
+#site-nav.nav-scrolled{
+
+    background:
+
+    rgba(11,15,20,.55);
+
+    backdrop-filter:blur(24px);
+
+    border-bottom:
+
+    1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+
+    0 15px 40px rgba(0,0,0,.35);
+
 }
-.admin-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.875rem;
+
+/* ==========================================================
+   Navbar Links
+========================================================== */
+
+#site-nav a{
+
+    position:relative;
+
+    transition:.3s;
+
 }
-.admin-table th {
-  text-align: left;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #8A93A6;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #22303F;
+
+#site-nav a:hover{
+
+    color:var(--cyan);
+
 }
-.admin-table td {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #1a2230;
-  color: #E6EAF2;
+
+#site-nav a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:-7px;
+
+    width:0;
+
+    height:2px;
+
+    background:var(--cyan);
+
+    transition:.3s;
+
 }
-.admin-table tr:hover td {
-  background: rgba(0, 229, 199, 0.04);
+
+#site-nav a:hover::after{
+
+    width:100%;
+
 }
-.admin-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.8rem;
-  padding: 0.55rem 1.1rem;
-  border-radius: 6px;
-  transition: all 0.15s ease;
-  cursor: pointer;
+
+/* ==========================================================
+   Buttons
+========================================================== */
+
+.btn-glow{
+
+    transition:
+
+    transform .3s,
+    box-shadow .3s;
+
 }
-.admin-btn-primary {
-  background: var(--cyan);
-  color: #0B0F14;
-  border: none;
+
+.btn-glow:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+
+    0 0 25px rgba(0,229,199,.28);
+
 }
-.admin-btn-primary:hover { box-shadow: 0 0 24px rgba(0, 229, 199, 0.35); }
-.admin-btn-ghost {
-  background: transparent;
-  color: #8A93A6;
-  border: 1px solid #22303F;
+
+/* ==========================================================
+   Hero Section
+========================================================== */
+
+.hero{
+
+    position:relative;
+
+    min-height:100vh;
+
+    display:flex;
+
+    align-items:center;
+
+    overflow:hidden;
+
 }
-.admin-btn-ghost:hover { color: #E6EAF2; border-color: #8A93A6; }
-.admin-btn-danger {
-  background: transparent;
-  color: #FF6B6B;
-  border: 1px solid rgba(255, 107, 107, 0.35);
+
+.hero>*{
+
+    position:relative;
+    z-index:2;
+
 }
-.admin-btn-danger:hover { background: rgba(255, 107, 107, 0.1); }
+
+/* ==========================================================
+   Left Side Animation
+========================================================== */
+
+.hero-left{
+
+    opacity:0;
+
+    transform:
+
+    translateX(-50px);
+
+    animation:
+
+    slideLeft 1s ease forwards;
+
+}
+
+.hero-left>*{
+
+    opacity:0;
+
+    transform:translateY(20px);
+
+}
+
+.hero-left>*:nth-child(1){
+
+    animation:fadeUp .7s .15s forwards;
+
+}
+
+.hero-left>*:nth-child(2){
+
+    animation:fadeUp .7s .35s forwards;
+
+}
+
+.hero-left>*:nth-child(3){
+
+    animation:fadeUp .7s .55s forwards;
+
+}
+
+.hero-left>*:nth-child(4){
+
+    animation:fadeUp .7s .75s forwards;
+
+}
+
+/* ==========================================================
+   Right Side Animation
+========================================================== */
+
+.hero-right{
+
+    opacity:0;
+
+    transform:
+
+    translateX(60px);
+
+    animation:
+
+    slideRight 1s .4s ease forwards;
+
+}
+
+/* ==========================================================
+   Brain
+========================================================== */
+
+.hero-brain{
+
+    width:100%;
+
+    max-width:580px;
+
+    display:block;
+
+    margin:auto;
+
+    mix-blend-mode:screen;
+
+    filter:
+
+    brightness(.88)
+
+    contrast(1.08)
+
+    saturate(1.15)
+
+    drop-shadow(0 0 18px rgba(0,245,255,.15))
+
+    drop-shadow(0 0 35px rgba(181,76,255,.10));
+
+    transition:
+
+    transform .5s,
+
+    filter .5s;
+
+    animation:
+
+    floatBrain 10s ease-in-out infinite;
+
+}
+
+.hero-brain:hover{
+
+    transform:
+
+    scale(1.03)
+
+    rotate(-1deg);
+
+    filter:
+
+    brightness(.95)
+
+    drop-shadow(0 0 22px rgba(0,245,255,.20));
+
+}
+
+/* ==========================================================
+   Float Animation
+========================================================== */
+
+@keyframes floatBrain{
+
+    0%{
+
+        transform:translateY(0px);
+
+    }
+
+    50%{
+
+        transform:translateY(-12px);
+
+    }
+
+    100%{
+
+        transform:translateY(0px);
+
+    }
+
+}
+
+/* ==========================================================
+   Entrance Animations
+========================================================== */
+
+@keyframes slideLeft{
+
+    to{
+
+        opacity:1;
+
+        transform:none;
+
+    }
+
+}
+
+@keyframes slideRight{
+
+    to{
+
+        opacity:1;
+
+        transform:none;
+
+    }
+
+}
+
+@keyframes fadeUp{
+
+    to{
+
+        opacity:1;
+
+        transform:none;
+
+    }
+
+}
+
+/* ==========================================================
+   Reveal
+========================================================== */
+
+.reveal{
+
+    opacity:0;
+
+    transform:
+
+    translateY(35px);
+
+    transition:
+
+    opacity .8s ease,
+
+    transform .8s ease;
+
+}
+
+.reveal.revealed{
+
+    opacity:1;
+
+    transform:none;
+
+}
+
+/* ==========================================================
+   Glow Helpers
+========================================================== */
+
+.shadow-glow-cyan{
+
+    box-shadow:
+
+    0 0 25px rgba(0,229,199,.22);
+
+}
+
+.shadow-glow-cyan-sm{
+
+    box-shadow:
+
+    0 0 15px rgba(0,229,199,.14);
+
+}
+
+.shadow-glow-violet-sm{
+
+    box-shadow:
+
+    0 0 18px rgba(124,92,255,.12);
+
+}
+
+/* ==========================================================
+   Accessibility
+========================================================== */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible{
+
+    outline:2px solid var(--cyan);
+
+    outline-offset:3px;
+
+}
+/* ==========================================================
+   Cards
+========================================================== */
+
+.glass-card{
+
+    position:relative;
+
+    background:
+        rgba(17,24,38,.55);
+
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+
+    border:1px solid rgba(255,255,255,.06);
+
+    border-radius:18px;
+
+    transition:
+        transform .35s ease,
+        border-color .35s ease,
+        box-shadow .35s ease,
+        background .35s ease;
+
+    overflow:hidden;
+
+}
+
+.glass-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+    linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,.04),
+        transparent
+    );
+
+    transform:translateX(-100%);
+
+    transition:.8s;
+
+}
+
+.glass-card:hover::before{
+
+    transform:translateX(100%);
+
+}
+
+.glass-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:
+        rgba(0,229,199,.25);
+
+    box-shadow:
+
+        0 15px 45px rgba(0,0,0,.30),
+        0 0 35px rgba(0,229,199,.08);
+
+}
+
+/* ==========================================================
+   Project Cards
+========================================================== */
+
+.project-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.project-card img{
+
+    transition:
+        transform .6s ease;
+
+}
+
+.project-card:hover img{
+
+    transform:scale(1.05);
+
+}
+
+.project-card .project-overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            transparent,
+            rgba(11,15,20,.85)
+        );
+
+    opacity:0;
+
+    transition:.4s;
+
+}
+
+.project-card:hover .project-overlay{
+
+    opacity:1;
+
+}
+
+/* ==========================================================
+   Resource Cards
+========================================================== */
+
+.resource-card{
+
+    transition:
+        transform .35s,
+        box-shadow .35s,
+        border-color .35s;
+
+}
+
+.resource-card:hover{
+
+    transform:translateY(-6px);
+
+    border-color:var(--cyan);
+
+    box-shadow:
+
+    0 10px 30px rgba(0,229,199,.12);
+
+}
+
+.resource-filter-btn{
+
+    transition:
+        .3s;
+
+}
+
+.resource-filter-btn:hover{
+
+    color:var(--cyan);
+
+    border-color:var(--cyan);
+
+}
+
+.resource-filter-btn.active{
+
+    color:var(--cyan);
+
+    border-color:var(--cyan);
+
+    box-shadow:
+
+    0 0 18px rgba(0,229,199,.18);
+
+}
+
+/* ==========================================================
+   Skill Badges
+========================================================== */
+
+.skill-chip{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:.4rem;
+
+    padding:.55rem 1rem;
+
+    border-radius:999px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    background:rgba(255,255,255,.02);
+
+    transition:.3s;
+
+}
+
+.skill-chip:hover{
+
+    background:
+
+    rgba(0,229,199,.08);
+
+    border-color:var(--cyan);
+
+    transform:translateY(-2px);
+
+}
+
+/* ==========================================================
+   Timeline
+========================================================== */
+
+.timeline{
+
+    position:relative;
+
+}
+
+.timeline::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:18px;
+
+    top:0;
+
+    width:2px;
+
+    height:100%;
+
+    background:
+
+    linear-gradient(
+
+    var(--cyan),
+
+    var(--violet)
+
+    );
+
+}
+
+.timeline-item{
+
+    position:relative;
+
+    padding-left:60px;
+
+    margin-bottom:50px;
+
+}
+
+.timeline-item::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:10px;
+
+    top:6px;
+
+    width:18px;
+
+    height:18px;
+
+    border-radius:50%;
+
+    background:var(--cyan);
+
+    box-shadow:
+
+    0 0 18px rgba(0,229,199,.4);
+
+}
+
+/* ==========================================================
+   Forms
+========================================================== */
+
+input,
+textarea,
+select{
+
+    width:100%;
+
+    background:#111826;
+
+    color:#E6EAF2;
+
+    border:1px solid #22303F;
+
+    border-radius:8px;
+
+    padding:.8rem 1rem;
+
+    transition:.3s;
+
+}
+
+input:hover,
+textarea:hover{
+
+    border-color:
+
+    rgba(0,229,199,.35);
+
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+
+    outline:none;
+
+    border-color:var(--cyan);
+
+    box-shadow:
+
+    0 0 0 3px rgba(0,229,199,.12);
+
+}
+
+/* ==========================================================
+   Admin Panel
+========================================================== */
+
+.admin-input{
+
+    width:100%;
+
+    background:#111826;
+
+    border:1px solid #22303F;
+
+    color:#E6EAF2;
+
+    padding:.7rem 1rem;
+
+    border-radius:8px;
+
+    transition:.3s;
+
+}
+
+.admin-input:focus{
+
+    border-color:var(--cyan);
+
+}
+
+.admin-label{
+
+    display:block;
+
+    margin-bottom:.45rem;
+
+    color:#8A93A6;
+
+    font-size:.8rem;
+
+}
+
+.admin-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.admin-table th{
+
+    color:#8A93A6;
+
+    padding:1rem;
+
+    border-bottom:1px solid #22303F;
+
+}
+
+.admin-table td{
+
+    padding:1rem;
+
+    border-bottom:1px solid #1b2430;
+
+}
+
+.admin-table tr{
+
+    transition:.25s;
+
+}
+
+.admin-table tr:hover{
+
+    background:
+
+    rgba(0,229,199,.04);
+
+}
+
+.admin-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:.5rem;
+
+    padding:.65rem 1.3rem;
+
+    border-radius:8px;
+
+    transition:.3s;
+
+    cursor:pointer;
+
+}
+
+.admin-btn-primary{
+
+    background:var(--cyan);
+
+    color:#081015;
+
+    border:none;
+
+}
+
+.admin-btn-primary:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+
+    0 0 25px rgba(0,229,199,.25);
+
+}
+
+.admin-btn-ghost{
+
+    border:1px solid #22303F;
+
+    background:none;
+
+    color:#E6EAF2;
+
+}
+
+.admin-btn-ghost:hover{
+
+    border-color:var(--cyan);
+
+    color:var(--cyan);
+
+}
+
+.admin-btn-danger{
+
+    border:1px solid rgba(255,90,90,.4);
+
+    color:#ff6b6b;
+
+    background:none;
+
+}
+
+.admin-btn-danger:hover{
+
+    background:
+
+    rgba(255,90,90,.08);
+
+}
+
+/* ==========================================================
+   Footer
+========================================================== */
+
+footer{
+
+    border-top:
+
+    1px solid rgba(255,255,255,.05);
+
+    background:
+
+    rgba(11,15,20,.75);
+
+    backdrop-filter:blur(12px);
+
+}
+
+footer a{
+
+    transition:.3s;
+
+}
+
+footer a:hover{
+
+    color:var(--cyan);
+
+}
+
+/* ==========================================================
+   Images
+========================================================== */
+
+img{
+
+    max-width:100%;
+
+    display:block;
+
+}
+
+.brain-image{
+
+    width:100%;
+
+    max-width:580px;
+
+    margin:auto;
+
+}
+
+/* ==========================================================
+   Responsive
+========================================================== */
+
+@media (max-width:1024px){
+
+.hero{
+
+padding-top:120px;
+
+}
+
+.hero-left{
+
+text-align:center;
+
+}
+
+.hero-right{
+
+margin-top:40px;
+
+}
+
+.hero-brain{
+
+max-width:460px;
+
+}
+
+.timeline::before{
+
+left:10px;
+
+}
+
+.timeline-item{
+
+padding-left:45px;
+
+}
+
+}
+
+@media (max-width:768px){
+
+.glow-orb{
+
+display:none;
+
+}
+
+#cursor-glow{
+
+display:none;
+
+}
+
+.hero{
+
+min-height:auto;
+
+padding:120px 0 80px;
+
+}
+
+.hero-brain{
+
+max-width:360px;
+
+}
+
+.admin-table{
+
+display:block;
+
+overflow-x:auto;
+
+}
+
+}
+
+@media (max-width:480px){
+
+.hero-brain{
+
+max-width:300px;
+
+}
+
+.hero-grid{
+
+    position:absolute;
+
+    inset:0;
+
+    background-image:
+
+    linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+
+    linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+
+    background-size:70px 70px;
+
+    mask-image:radial-gradient(circle at center,black 45%,transparent 95%);
+
+    opacity:.35;
+
+    z-index:0;
+
+}
+.timeline-item{
+
+padding-left:35px;
+
+}
+
+.timeline-item::before{
+
+width:14px;
+
+height:14px;
+
+left:4px;
+
+}
+
+}
+
+/* ==========================================================
+   Reduced Motion
+========================================================== */
+
+@media (prefers-reduced-motion:reduce){
+
+*{
+
+animation:none!important;
+
+transition:none!important;
+
+scroll-behavior:auto!important;
+
+}
+
+}
