@@ -7,8 +7,18 @@
   <title>{{ profile.name }} — Portfolio </title>
 
   <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='img/AS1.png') }}">
-  <meta name="description" content="{{ profile.summary }}">
+  <meta name="description" content="{{ profile.summary[:150] }}...">
 
+  <!-- Open Graph / Social Media Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ profile.name }} — Portfolio">
+  <meta property="og:description" content="{{ profile.summary[:150] }}...">
+  <meta property="og:image" content="{{ url_for('static', filename='img/hero_abstract.jpg', _external=True) }}">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ profile.name }} — Portfolio">
+  <meta name="twitter:description" content="{{ profile.summary[:150] }}...">
+  <meta name="twitter:image" content="{{ url_for('static', filename='img/hero_abstract.jpg', _external=True) }}">
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -76,9 +86,9 @@
 
       <div class="flex items-center gap-3">
         {% if profile.resume_file %}
-        <a href="{{ url_for('static', filename='uploads/' + profile.resume_file) }}" download
+        <a href="{{ url_for('static', filename='uploads/' + profile.resume_file) }}" target="_blank"
           class="hidden sm:inline-block font-mono text-xs px-4 py-2 rounded border border-cyan/40 text-cyan hover:bg-cyan hover:text-bg transition-colors">
-          ↓ resume
+          Resume
         </a>
         {% endif %}
         <button id="nav-toggle" aria-label="Toggle menu" aria-expanded="false"
@@ -103,7 +113,8 @@
         <a href="#experience" class="nav-mobile-link hover:text-ink transition-colors">Experience</a>
         <a href="#contact" class="nav-mobile-link hover:text-ink transition-colors">Contact</a>
         {% if profile.resume_file %}
-        <a href="{{ url_for('static', filename='uploads/' + profile.resume_file) }}" download class="text-cyan mt-2">Download
+        <a href="{{ url_for('static', filename='uploads/' + profile.resume_file) }}" target="_blank"
+          class="text-cyan mt-2">View
           Resume</a>
         {% endif %}
       </div>
