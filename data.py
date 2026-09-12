@@ -96,9 +96,9 @@ EXPERIENCE = [
      dict(role = "AIML Trainer", org = "Solitaire Infosystem", period = "sep 2025 - Sep 2026",
      commit="",
      points=(
-         "Provide training to students on AIML and Data Science.\n",
-         "Hands on Projects",
-         "Build the Resume with Projects",
+         "Provide training to students on AIML and Data Science.\n"
+         "Hands on Projects\n"
+         "Build the Resume with Projects"
      )),
     dict(role="Data Science Intern", org="Unified Mentor", period="Apr 2025 – May 2025",
          commit="a3f9c1e",
