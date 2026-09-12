@@ -2,7 +2,11 @@
 
 PROFILE = {
     "name": "Arshdeep Singh",
-    "roles": "AI/ML Engineer (0.5 YEAR),Generative AI Developer (0 YEAR),Python Developer (01 YEAR)",
+    "roles": [
+        "AI/ML Engineer (0.5 YEAR)",
+        "Generative AI Developer (0 YEAR)",
+        "Python Developer (01 YEAR)"
+    ],
     "location": "Mohali, Punjab, India",
     "email": "arshdeepsingh17092@gmail.com",
     "contact_number": "+91 6284519020",

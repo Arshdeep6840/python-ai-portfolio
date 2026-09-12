@@ -104,8 +104,33 @@ document.getElementById("year").textContent = new Date().getFullYear();
     link.addEventListener("click", close);
   });
 })();
+// ---------------------------------------------------------------------------
+// ScrollSpy (Active Nav Link)
+// ---------------------------------------------------------------------------
+(function scrollSpy() {
+  const sections = document.querySelectorAll("section[id]");
+  const navLinks = document.querySelectorAll(".nav-link");
 
+  function onScroll() {
+    let current = "";
+    sections.forEach((section) => {
+      const sectionTop = section.offsetTop;
+      if (window.scrollY >= sectionTop - 150) {
+        current = section.getAttribute("id");
+      }
+    });
 
+    navLinks.forEach((link) => {
+      link.classList.remove("active");
+      if (link.getAttribute("href").includes(current) && current !== "") {
+        link.classList.add("active");
+      }
+    });
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+})();
 // ---------------------------------------------------------------------------
 // Contact form
 // ---------------------------------------------------------------------------

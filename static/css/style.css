@@ -172,6 +172,29 @@ input:focus, textarea:focus, select:focus {
 }
 
 /* ==========================================================
+   NAVBAR ACTIVE STATE (ScrollSpy)
+========================================================== */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+    border-radius: 2px;
+}
+
+.nav-link.active::after, .nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link.active {
+    color: var(--text);
+}
+
+/* ==========================================================
    REDUCED MOTION
 ========================================================== */
 @media (prefers-reduced-motion: reduce) {
