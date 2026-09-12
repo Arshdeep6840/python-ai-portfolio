@@ -3,8 +3,7 @@
 PROFILE = {
     "name": "Arshdeep Singh",
     "roles": [
-        "AI/ML Engineer (0.5 YEAR)",
-        "Generative AI Developer (0 YEAR)",
+        "AI/ML Engineer (1 YEAR)",
         "Python Developer (01 YEAR)"
     ],
     "location": "Mohali, Punjab, India",
@@ -93,6 +92,14 @@ PROJECTS = [
 ]
 
 EXPERIENCE = [
+
+     dict(role = "AIML Trainer", org = "Solitaire Infosystem", period = "sep 2025 - Sep 2026",
+     commit="",
+     points=(
+         "Provide training to students on AIML and Data Science.\n",
+         "Hands on Projects",
+         "Build the Resume with Projects",
+     )),
     dict(role="Data Science Intern", org="Unified Mentor", period="Apr 2025 – May 2025",
          commit="a3f9c1e",
          points=(
@@ -122,3 +129,6 @@ CERTIFICATIONS = [
     dict(name="Data Science Intern", company="Unified Mentor", image=""),
     dict(name="Certificate Course in Artificial Intelligence & Data Science",company = "Cetpa Infotech Pvt. Ltd", image=""),
 ]
+
+
+# Add to data.py
