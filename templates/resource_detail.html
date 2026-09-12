@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -16,15 +16,18 @@
     theme: {
       extend: {
         colors: {
-          bg: '#0B0F14', surface: '#111826', surface2: '#161F2E', line: '#22303F',
-          cyan: { DEFAULT: '#00E5C7', dim: '#0A9C8A' },
-          violet: { DEFAULT: '#7C5CFF', dim: '#5A3FCC' },
-          amber: '#FFB454', ink: '#E6EAF2', muted: '#8A93A6',
+          bg: '#020617', // slate-950
+          surface: '#0f172a', // slate-900
+          surface2: '#1e293b', // slate-800
+          line: '#334155', // slate-700
+          accent: { DEFAULT: '#6366f1', dim: '#4f46e5' }, // indigo
+          secondary: { DEFAULT: '#0ea5e9', dim: '#0284c7' }, // sky blue
+          ink: '#f8fafc',
+          muted: '#94a3b8',
         },
         fontFamily: {
-          display: ['"Space Grotesk"', 'sans-serif'],
+          display: ['"Outfit"', 'sans-serif'],
           body: ['Inter', 'sans-serif'],
-          mono: ['"JetBrains Mono"', 'monospace'],
         },
       },
     },
@@ -32,53 +35,65 @@
 </script>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body class="bg-bg text-ink font-body antialiased selection:bg-cyan selection:text-bg">
+<body class="bg-bg text-ink font-body antialiased selection:bg-accent selection:text-white">
 
-<div class="glow-orb glow-orb-cyan" aria-hidden="true"></div>
-<div class="glow-orb glow-orb-violet" aria-hidden="true"></div>
+<!-- Mesh Gradient Background -->
+<div class="mesh-bg" aria-hidden="true">
+  <div class="mesh-blob mesh-blob-1"></div>
+  <div class="mesh-blob mesh-blob-2"></div>
+</div>
 
-<header class="border-b border-line">
+<header class="border-b border-line/50 bg-surface/30 backdrop-blur-md sticky top-0 z-50">
   <nav class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-    <a href="{{ url_for('index') }}" class="font-mono text-sm text-ink hover:text-cyan transition-colors">
-      <span class="text-cyan">~/</span>arshdeep<span class="text-violet">.dev</span>
+    <a href="{{ url_for('index') }}" class="flex items-center gap-2 group">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-accent to-secondary flex items-center justify-center shadow-glow overflow-hidden">
+        <img src="{{ url_for('static', filename='img/AS1.png') }}" alt="AS Logo" class="w-5 h-5 object-contain mix-blend-screen group-hover:scale-110 transition-transform duration-500">
+      </div>
+      <span class="font-display font-600 text-lg tracking-tight text-ink">Arshdeep<span class="text-accent">.</span></span>
     </a>
-    <a href="{{ url_for('index') }}#resources" class="font-mono text-xs text-muted hover:text-cyan transition-colors">
-      ← back to resources
+    <a href="{{ url_for('index') }}#resources" class="inline-flex items-center gap-2 text-sm font-medium text-muted hover:text-ink transition-colors">
+      &larr; Back to Resources
     </a>
   </nav>
 </header>
 
 <main class="relative max-w-4xl mx-auto px-6 py-16">
-  <div class="flex items-center gap-3 mb-6 font-mono text-xs">
-    <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-surface border border-line text-violet">
-      {% if r.resource_type == 'video' %}▶ video
-      {% elif r.resource_type == 'ppt' %}▤ slides
-      {% elif r.resource_type == 'pdf' %}▥ pdf
-      {% elif r.resource_type == 'docx' %}▥ docx
-      {% elif r.resource_type == 'link' %}↗ link
-      {% else %}✎ note{% endif %}
+  <div class="flex items-center gap-3 mb-8">
+    <span class="inline-flex items-center px-3 py-1.5 rounded-md bg-accent/10 border border-accent/20 text-xs font-semibold uppercase tracking-widest text-accent">
+      {% if r.resource_type == 'video' %}Video
+      {% elif r.resource_type == 'ppt' %}Presentation
+      {% elif r.resource_type == 'pdf' %}PDF
+      {% elif r.resource_type == 'docx' %}Document
+      {% elif r.resource_type == 'link' %}External Link
+      {% else %}Note{% endif %}
     </span>
-    {% if r.resource_type == 'video' and r.duration_label %}<span class="text-muted">{{ r.duration_label }}</span>{% endif %}
-    {% if r.size_label %}<span class="text-muted">{{ r.size_label }}</span>{% endif %}
-    {% if r.category %}<span class="text-muted">{{ r.category }}</span>{% endif %}
+    {% if r.resource_type == 'video' and r.duration_label %}<span class="text-sm font-medium text-muted">{{ r.duration_label }}</span>{% endif %}
+    {% if r.size_label %}<span class="text-sm font-medium text-muted">{{ r.size_label }}</span>{% endif %}
+    {% if r.category %}<span class="text-sm font-medium text-muted">{{ r.category }}</span>{% endif %}
   </div>
 
-  <h1 class="font-display text-3xl sm:text-4xl font-700 mb-4">{{ r.title }}</h1>
+  <h1 class="font-display text-4xl sm:text-5xl font-700 mb-6 tracking-tight">{{ r.title }}</h1>
+  
   {% if r.description %}
-  <p class="text-muted leading-relaxed mb-10 max-w-2xl">{{ r.description }}</p>
+  <p class="text-lg text-muted leading-relaxed mb-12 max-w-2xl">{{ r.description }}</p>
   {% endif %}
 
   {% if r.preview_image and r.resource_type != 'video' %}
-  <img src="{{ url_for('static', filename=r.preview_image) }}" alt="" class="w-full max-h-80 object-cover rounded-lg border border-line mb-8">
+  <div class="rounded-2xl overflow-hidden border border-line/50 mb-10 shadow-2xl relative">
+    <div class="absolute inset-0 bg-gradient-to-t from-bg/80 to-transparent"></div>
+    <img src="{{ url_for('static', filename=r.preview_image) }}" alt="{{ r.title }}" class="w-full max-h-[400px] object-cover">
+  </div>
   {% endif %}
 
-  <div class="rounded-lg border border-line bg-surface/60 p-6 sm:p-8">
+  <div class="glass-panel p-8 sm:p-10 mb-16">
     {# --- Video: uploaded file --- #}
     {% if r.resource_type == 'video' and r.file_path %}
-      <video controls class="w-full rounded" src="{{ url_for('static', filename=r.file_path) }}"></video>
+      <div class="rounded-xl overflow-hidden border border-line/50 shadow-lg">
+        <video controls class="w-full" src="{{ url_for('static', filename=r.file_path) }}"></video>
+      </div>
       {% if r.external_url %}
-      <p class="mt-4 font-mono text-xs text-muted">
-        Also available at: <a class="text-cyan hover:underline" href="{{ r.external_url }}" target="_blank" rel="noopener">{{ r.external_url }}</a>
+      <p class="mt-6 text-sm text-muted">
+        Also available at: <a class="text-secondary font-medium hover:underline break-all" href="{{ r.external_url }}" target="_blank" rel="noopener">{{ r.external_url }}</a>
       </p>
       {% endif %}
 
@@ -86,67 +101,83 @@
     {% elif r.resource_type == 'video' and r.external_url %}
       {% if 'youtube.com' in r.external_url or 'youtu.be' in r.external_url %}
         {% set yt_id = r.external_url.split('v=')[-1].split('&')[0] if 'v=' in r.external_url else r.external_url.rsplit('/', 1)[-1] %}
-        <div class="aspect-video">
-          <iframe class="w-full h-full rounded" src="https://www.youtube.com/embed/{{ yt_id }}"
+        <div class="aspect-video rounded-xl overflow-hidden border border-line/50 shadow-lg">
+          <iframe class="w-full h-full" src="https://www.youtube.com/embed/{{ yt_id }}"
                   title="{{ r.title }}" frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowfullscreen></iframe>
         </div>
-            {% elif r.external_url and 'drive.google.com/file/d/' in r.external_url %}
-            <div class="aspect-video">
-                <iframe
-                    class="w-full h-full rounded"
-                    src="{{ r.external_url.replace('/view', '/preview') }}"
-                    title="Google Drive Preview"
-                    loading="lazy"
-                    allow="autoplay"
-                    allowfullscreen
-                    referrerpolicy="strict-origin-when-cross-origin">
-                </iframe>
-            </div>
+      {% elif r.external_url and 'drive.google.com/file/d/' in r.external_url %}
+        <div class="aspect-video rounded-xl overflow-hidden border border-line/50 shadow-lg">
+            <iframe
+                class="w-full h-full"
+                src="{{ r.external_url.replace('/view', '/preview') }}"
+                title="Google Drive Preview"
+                loading="lazy"
+                allow="autoplay"
+                allowfullscreen
+                referrerpolicy="strict-origin-when-cross-origin">
+            </iframe>
+        </div>
       {% else %}
-        <p class="text-muted">
-          Watch here: <a class="text-cyan hover:underline break-all" href="{{ r.external_url }}" target="_blank" rel="noopener">{{ r.external_url }}</a>
-        </p>
+        <div class="flex flex-col items-start gap-4">
+          <p class="text-muted text-lg">Watch this video on an external platform:</p>
+          <a class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-surface2 border border-line text-ink font-medium hover:border-secondary hover:text-secondary transition-all" href="{{ r.external_url }}" target="_blank" rel="noopener">
+            Open Video &rarr;
+          </a>
+        </div>
       {% endif %}
 
     {# --- PDF: inline preview + download --- #}
     {% elif r.resource_type == 'pdf' and r.file_path %}
-      <iframe src="{{ url_for('static', filename=r.file_path) }}" class="w-full h-[75vh] rounded border border-line mb-5"></iframe>
+      <div class="rounded-xl overflow-hidden border border-line/50 shadow-lg mb-8">
+        <iframe src="{{ url_for('static', filename=r.file_path) }}" class="w-full h-[75vh]"></iframe>
+      </div>
       <a href="{{ url_for('static', filename=r.file_path) }}" download
-         class="inline-flex items-center gap-2 px-5 py-3 rounded bg-cyan text-bg font-mono text-sm font-medium hover:shadow-glow-cyan transition-all">
-        ↓ download pdf
+         class="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-accent to-secondary text-white font-medium hover:shadow-glow transition-all hover:-translate-y-0.5">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Download PDF
       </a>
 
     {# --- PPT / DOCX: uploaded file, download only --- #}
     {% elif r.resource_type in ['ppt', 'docx'] and r.file_path %}
-      <p class="text-muted mb-4">Download the file to view it:</p>
-      <a href="{{ url_for('static', filename=r.file_path) }}" download
-         class="inline-flex items-center gap-2 px-5 py-3 rounded bg-cyan text-bg font-mono text-sm font-medium hover:shadow-glow-cyan transition-all">
-        ↓ download {{ r.resource_type }}
-      </a>
+      <div class="flex flex-col items-start gap-6 py-4">
+        <div class="w-16 h-16 rounded-2xl bg-surface2 border border-line flex items-center justify-center text-secondary">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+        </div>
+        <p class="text-lg text-ink">This file is ready for download.</p>
+        <a href="{{ url_for('static', filename=r.file_path) }}" download
+           class="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-accent to-secondary text-white font-medium hover:shadow-glow transition-all hover:-translate-y-0.5">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Download {{ r.resource_type | upper }}
+        </a>
+      </div>
 
     {# --- Link type or external doc/ppt/pdf --- #}
     {% elif r.external_url %}
-      <p class="text-muted mb-4">This resource lives externally:</p>
-      <a href="{{ r.external_url }}" target="_blank" rel="noopener"
-         class="inline-flex items-center gap-2 px-5 py-3 rounded border border-cyan/40 text-cyan font-mono text-sm hover:bg-cyan hover:text-bg transition-colors">
-        ↗ open link
-      </a>
+      <div class="flex flex-col items-start gap-4">
+        <p class="text-muted text-lg">This resource lives on an external site:</p>
+        <a href="{{ r.external_url }}" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-surface2 border border-line text-ink font-medium hover:border-secondary hover:text-secondary transition-all">
+          Open External Link &rarr;
+        </a>
+      </div>
 
     {# --- Note content --- #}
     {% elif r.content %}
-      <div class="prose-note font-body text-ink leading-relaxed whitespace-pre-line">{{ r.content }}</div>
+      <div class="prose-note font-body text-ink text-lg leading-relaxed whitespace-pre-line">{{ r.content }}</div>
 
     {% else %}
-      <p class="text-muted font-mono text-sm">No file uploaded for this resource yet — add one from the admin panel.</p>
+      <div class="py-10 text-center">
+        <p class="text-muted font-medium">No file uploaded for this resource yet.</p>
+      </div>
     {% endif %}
   </div>
 </main>
 
-<footer class="border-t border-line py-8">
+<footer class="border-t border-line/50 py-10 bg-bg">
   <div class="max-w-4xl mx-auto px-6 text-center">
-    <p class="font-mono text-xs text-muted">© <span id="year"></span> {{ profile.name }}</p>
+    <p class="text-sm text-muted font-medium">© <span id="year"></span> {{ profile.name }}</p>
   </div>
 </footer>
 

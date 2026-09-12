@@ -1,45 +1,42 @@
-
 // Footer year
 document.getElementById("year").textContent = new Date().getFullYear();
 
 // ---------------------------------------------------------------------------
-// Typewriter effect for hero role line
+// Smooth text transition for hero role line
 // ---------------------------------------------------------------------------
-(function typewriter() {
-  const el = document.getElementById("typed-role");
-  if (!el || typeof ROLES === "undefined" || !ROLES.length) return;
+(function roleCarousel() {
+  const container = document.getElementById("role-carousel");
+  if (!container || typeof ROLES === "undefined" || !ROLES.length) return;
 
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (prefersReduced) {
-    el.textContent = ROLES.join(" · ");
-    return;
-  }
+  // Populate container
+  ROLES.forEach(role => {
+    const el = document.createElement("div");
+    el.textContent = role;
+    el.className = "h-8 flex items-center";
+    container.appendChild(el);
+  });
+  
+  // Clone first element for seamless looping
+  const firstClone = container.firstElementChild.cloneNode(true);
+  container.appendChild(firstClone);
 
-  let roleIndex = 0;
-  let charIndex = 0;
-  let deleting = false;
+  let currentIndex = 0;
+  const totalItems = ROLES.length;
 
-  function tick() {
-    const current = ROLES[roleIndex];
-    if (!deleting) {
-      charIndex++;
-      el.textContent = current.slice(0, charIndex);
-      if (charIndex === current.length) {
-        deleting = true;
-        setTimeout(tick, 1400);
-        return;
-      }
-    } else {
-      charIndex--;
-      el.textContent = current.slice(0, charIndex);
-      if (charIndex === 0) {
-        deleting = false;
-        roleIndex = (roleIndex + 1) % ROLES.length;
-      }
+  setInterval(() => {
+    currentIndex++;
+    container.style.transition = "transform 0.7s cubic-bezier(0.65, 0, 0.35, 1)";
+    container.style.transform = `translateY(-${currentIndex * 2}rem)`; // 2rem = 32px (h-8)
+
+    // Reset without transition when reaching the clone
+    if (currentIndex === totalItems) {
+      setTimeout(() => {
+        container.style.transition = "none";
+        container.style.transform = "translateY(0)";
+        currentIndex = 0;
+      }, 700);
     }
-    setTimeout(tick, deleting ? 35 : 60);
-  }
-  tick();
+  }, 3000);
 })();
 
 // ---------------------------------------------------------------------------
@@ -73,8 +70,11 @@ document.getElementById("year").textContent = new Date().getFullYear();
   const nav = document.getElementById("site-nav");
   if (!nav) return;
   function update() {
-    if (window.scrollY > 24) nav.classList.add("nav-scrolled");
-    else nav.classList.remove("nav-scrolled");
+    if (window.scrollY > 24) {
+      nav.classList.add("bg-surface/70", "backdrop-blur-lg", "shadow-sm", "border-b", "border-line/50");
+    } else {
+      nav.classList.remove("bg-surface/70", "backdrop-blur-lg", "shadow-sm", "border-b", "border-line/50");
+    }
   }
   window.addEventListener("scroll", update, { passive: true });
   update();
@@ -105,31 +105,6 @@ document.getElementById("year").textContent = new Date().getFullYear();
   });
 })();
 
-// ---------------------------------------------------------------------------
-// Resource type filter
-// ---------------------------------------------------------------------------
-(function resourceFilter() {
-  const buttons = document.querySelectorAll(".resource-filter-btn");
-  const cards = document.querySelectorAll(".resource-card");
-  if (!buttons.length) return;
-
-  buttons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      buttons.forEach((b) => {
-        b.classList.remove("active", "border-cyan", "text-cyan");
-        b.classList.add("border-line", "text-muted");
-      });
-      btn.classList.add("active", "border-cyan", "text-cyan");
-      btn.classList.remove("border-line", "text-muted");
-
-      const filter = btn.dataset.filter;
-      cards.forEach((card) => {
-        const show = filter === "all" || card.dataset.type === filter;
-        card.style.display = show ? "" : "none";
-      });
-    });
-  });
-})();
 
 // ---------------------------------------------------------------------------
 // Contact form
@@ -149,9 +124,9 @@ document.getElementById("year").textContent = new Date().getFullYear();
     };
 
     btn.disabled = true;
-    btn.textContent = "sending...";
+    btn.textContent = "Sending...";
     status.textContent = "";
-    status.className = "font-mono text-xs mt-2";
+    status.className = "text-sm font-medium mt-4";
 
     try {
       const res = await fetch("/contact", {
@@ -163,18 +138,18 @@ document.getElementById("year").textContent = new Date().getFullYear();
 
       if (data.ok) {
         status.textContent = "✓ Message sent — I'll get back to you soon.";
-        status.classList.add("text-cyan");
+        status.classList.add("text-secondary");
         form.reset();
       } else {
         status.textContent = "✗ " + (data.error || "Something went wrong.");
-        status.classList.add("text-amber");
+        status.classList.add("text-red-500");
       }
     } catch (err) {
       status.textContent = "✗ Network error — please email me directly instead.";
-      status.classList.add("text-amber");
+      status.classList.add("text-red-500");
     } finally {
       btn.disabled = false;
-      btn.textContent = "send_message()";
+      btn.textContent = "Send Message";
     }
   });
 })();

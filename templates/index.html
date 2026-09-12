@@ -6,28 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ profile.name }} — Portfolio </title>
 
-  <!-- <link rel="icon" type="image/png" sizes="16x16"
-      href="{{ url_for('static', filename='img/icon.png') }}"> -->
-
-  <!-- <link rel="icon" type="image/png" sizes="32x32"
-      href="{{ url_for('static', filename='img/favicon-32.png') }}"> -->
-
-  <!-- <link rel="icon" type="image/png" sizes="192x192"
-      href="{{ url_for('static', filename='img/favicon-192.png') }}"> -->
-
   <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='img/AS1.png') }}">
-  <!-- <link rel="apple-touch-icon" sizes="180x180"
-      href="{{ url_for('static', filename='img/apple-touch-icon.png') }}"> -->
-
-  <!-- <link rel="manifest"
-      href="{{ url_for('static', filename='site.webmanifest') }}"> -->
   <meta name="description" content="{{ profile.summary }}">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
     rel="stylesheet">
 
   <!-- Tailwind (CDN, configured) -->
@@ -37,20 +23,20 @@
       theme: {
         extend: {
           colors: {
-            bg: '#0B0F14',
-            surface: '#111826',
-            surface2: '#161F2E',
-            line: '#22303F',
-            cyan: { DEFAULT: '#00E5C7', dim: '#0A9C8A' },
-            violet: { DEFAULT: '#7C5CFF', dim: '#5A3FCC' },
-            amber: '#FFB454',
-            ink: '#E6EAF2',
-            muted: '#8A93A6',
+            bg: '#020617', // slate-950
+            surface: '#0f172a', // slate-900
+            surface2: '#1e293b', // slate-800
+            line: '#334155', // slate-700
+            accent: { DEFAULT: '#6366f1', dim: '#4f46e5' }, // indigo
+            secondary: { DEFAULT: '#0ea5e9', dim: '#0284c7' }, // sky blue
+            cyan: { DEFAULT: '#38BDF8', dim: '#0284C7' },
+            violet: { DEFAULT: '#818CF8', dim: '#4F46E5' },
+            ink: '#f8fafc',
+            muted: '#94a3b8',
           },
           fontFamily: {
-            display: ['"Space Grotesk"', 'sans-serif'],
+            display: ['"Outfit"', 'sans-serif'],
             body: ['Inter', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace'],
           },
         },
       },
@@ -60,47 +46,41 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body class="bg-bg text-ink font-body antialiased selection:bg-cyan selection:text-bg">
+<body class="bg-bg text-ink font-body antialiased selection:bg-accent selection:text-white">
 
-  <!-- Ambient glow layer -->
-  <div class="glow-orb glow-orb-cyan" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb-violet" aria-hidden="true"></div>
+  <!-- Mesh Gradient Background -->
+  <div class="mesh-bg" aria-hidden="true">
+    <div class="mesh-blob mesh-blob-1"></div>
+    <div class="mesh-blob mesh-blob-2"></div>
+    <div class="mesh-blob mesh-blob-3"></div>
+  </div>
 
   <!-- ============ NAV ============ -->
-  <header id="site-nav" class="fixed top-0 inset-x-0 z-50 border-b border-line/0 transition-colors duration-300">
-    <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+  <header id="site-nav"
+    class="fixed top-4 inset-x-4 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 z-50 rounded-full border border-line/30 bg-surface/50 backdrop-blur-xl transition-all duration-300 shadow-2xl">
+    <nav class="px-6 py-3 flex items-center justify-between gap-8 w-full max-w-6xl mx-auto">
 
-      <a href="#top" class="flex items-center gap-0 font-mono text-sm text-ink hover:text-cyan transition-colors"></a>
-      <img src="{{ url_for('static', filename='img/AS1.png') }}" alt="AS Logo" class="w-8 h-8 object-contain">
-      <span>
-        <span class="text-cyan">~/</span>arshdeep<span class="text-violet">.dev</span>
-      </span>
+      <a href="#top"
+        class="flex items-center gap-3 font-display font-600 text-lg text-ink hover:text-cyan transition-colors">
+        <img src="{{ url_for('static', filename='img/AS1.png') }}" alt="AS Logo" class="w-7 h-7 object-contain">
+        <span>Arshdeep<span class="text-cyan">.AI</span></span>
       </a>
-      <div class="hidden md:flex items-center gap-7 font-mono text-xs uppercase tracking-widest text-muted">
-        <a href="#about" class="hover:text-cyan transition-colors">01 ·
-          about</a>
-        <a href="#skills" class="hover:text-cyan transition-colors">02 ·
-          stack</a>
-        <a href="#projects" class="hover:text-cyan transition-colors">03 ·
-          projects</a>
-        <a href="#experience" class="hover:text-cyan transition-colors">04 ·
-          log</a>
-        <a href="#resources" class="hover:text-cyan transition-colors">05 ·
-          resources</a>
-        <a href="#contact" class="hover:text-cyan transition-colors">06 ·
-          contact</a>
+
+      <div class="hidden md:flex items-center gap-6 font-display text-sm font-500 text-muted">
+        <a href="#about" class="hover:text-ink transition-colors">About</a>
+        <a href="#skills" class="hover:text-ink transition-colors">Stack</a>
+        <a href="#projects" class="hover:text-ink transition-colors">Projects</a>
+        <a href="#experience" class="hover:text-ink transition-colors">Experience</a>
+        <a href="#contact" class="hover:text-ink transition-colors">Contact</a>
       </div>
+
       <div class="flex items-center gap-3">
-        {% if profile.resume_file_path %}
-        <a href="{{ url_for('static', filename=profile.resume_file_path) }}" download
+        {% if profile.resume_file %}
+        <a href="{{ url_for('static', filename='uploads/' + profile.resume_file) }}" download
           class="hidden sm:inline-block font-mono text-xs px-4 py-2 rounded border border-cyan/40 text-cyan hover:bg-cyan hover:text-bg transition-colors">
           ↓ resume
         </a>
         {% endif %}
-        <a href="{{ url_for('admin.login') }}"
-          class="hidden sm:inline-block font-mono text-xs px-4 py-2 rounded border border-cyan/40 text-cyan hover:bg-cyan hover:text-bg transition-colors">
-          ADMIN
-        </a>
         <button id="nav-toggle" aria-label="Toggle menu" aria-expanded="false"
           class="md:hidden w-9 h-9 flex items-center justify-center rounded border border-line text-ink">
           <svg id="nav-toggle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -114,142 +94,111 @@
     </nav>
 
     <!-- Mobile menu panel -->
-    <div id="nav-mobile" class="md:hidden hidden border-t border-line bg-bg/95 backdrop-blur-sm">
-      <div class="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-4 font-mono text-sm text-muted">
-        <a href="#about" class="nav-mobile-link hover:text-cyan transition-colors">01 ·
-          about</a>
-        <a href="#skills" class="nav-mobile-link hover:text-cyan transition-colors">02 ·
-          stack</a>
-        <a href="#projects" class="nav-mobile-link hover:text-cyan transition-colors">03 ·
-          projects</a>
-        <a href="#experience" class="nav-mobile-link hover:text-cyan transition-colors">04 ·
-          log</a>
-        <a href="#resources" class="nav-mobile-link hover:text-cyan transition-colors">05 ·
-          resources</a>
-        <a href="#contact" class="nav-mobile-link hover:text-cyan transition-colors">06 ·
-          contact</a>
-        {% if profile.resume_file_path %}
-        <a href="{{ url_for('static', filename=profile.resume_file_path) }}" download class="sm:hidden text-cyan">↓
-          resume</a>
+    <div id="nav-mobile"
+      class="md:hidden hidden border-t border-line/30 bg-bg/95 backdrop-blur-xl rounded-b-3xl absolute top-full left-0 right-0 mt-2 shadow-2xl">
+      <div class="max-w-6xl mx-auto px-6 py-6 flex flex-col gap-4 font-display text-sm font-500 text-muted">
+        <a href="#about" class="nav-mobile-link hover:text-ink transition-colors">About</a>
+        <a href="#skills" class="nav-mobile-link hover:text-ink transition-colors">Stack</a>
+        <a href="#projects" class="nav-mobile-link hover:text-ink transition-colors">Projects</a>
+        <a href="#experience" class="nav-mobile-link hover:text-ink transition-colors">Experience</a>
+        <a href="#contact" class="nav-mobile-link hover:text-ink transition-colors">Contact</a>
+        {% if profile.resume_file %}
+        <a href="{{ url_for('static', filename='uploads/' + profile.resume_file) }}" download class="text-cyan mt-2">Download
+          Resume</a>
         {% endif %}
       </div>
     </div>
   </header>
 
   <!-- ============ HERO ============ -->
-  <section id="top" class="relative min-h-screen flex items-center overflow-hidden pt-24">
-
-    <!-- Background -->
-    <canvas id="network-canvas" class="absolute inset-0 w-full h-full opacity-70"></canvas>
-
-    <div class="absolute inset-0 bg-gradient-to-b from-bg/20 via-bg/60 to-bg pointer-events-none">
-    </div>
-
-    <div class="relative z-10 max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-10 items-center">
-
+  <section id="top" class="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden">
+    <div class="relative z-10 max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-12 items-center">
       <!-- LEFT SIDE -->
-      <div>
-
-        <p class="font-mono text-cyan text-sm mb-4 reveal">
-          <span class="text-muted">$</span> whoami
+      <div class="hero-content">
+        <div
+          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-semibold uppercase tracking-widest mb-8 reveal">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+          </span>
+          Available for Work
+        </div>
+        <p class="font-display font-600 text-cyan tracking-widest uppercase text-xs mb-4 reveal">
+          Welcome to my portfolio
         </p>
 
         <h1 class="font-display font-700 text-5xl sm:text-6xl md:text-7xl leading-[1.05] mb-6 reveal">
           {{ profile.name }}
         </h1>
 
-        <div class="font-mono text-lg sm:text-xl text-muted mb-8 h-8">
-          <span class="text-violet">&gt;</span>
-          <span id="typed-role"></span>
-          <span class="typed-cursor">▍</span>
+        <div class="text-lg sm:text-xl text-muted mb-8 h-8 relative overflow-hidden font-display font-500">
+          <div id="role-carousel" class="flex flex-col transition-transform duration-700 ease-in-out">
+            <!-- Populated by JS -->
+          </div>
         </div>
 
-        <p class="max-w-xl text-muted leading-relaxed mb-10">
+        <p class="max-w-xl text-muted text-lg leading-relaxed mb-10 reveal">
           {{ profile.summary }}
         </p>
 
-        <div class="flex flex-wrap gap-4">
-
+        <div class="flex flex-wrap gap-4 reveal">
           <a href="#projects"
-            class="px-6 py-3 rounded bg-cyan text-bg font-mono text-sm font-medium hover:shadow-glow-cyan transition">
-
-            view_projects()
-
+            class="px-8 py-4 rounded-xl bg-gradient-to-r from-accent to-secondary text-white font-medium hover:shadow-glow transition-all hover:-translate-y-0.5 shadow-lg">
+            Explore Work
           </a>
-
-          <a href="#contact" class="px-6 py-3 rounded border border-line">
-
+          <a href="#contact"
+            class="px-8 py-4 rounded-xl border border-line bg-surface/50 backdrop-blur hover:bg-surface hover:border-muted text-ink font-medium transition-all hover:-translate-y-0.5">
             Let's Talk
-
           </a>
-
         </div>
-
       </div>
 
       <!-- RIGHT SIDE -->
-      <div class="relative flex items-center justify-center">
-
-        <!-- Brain Image -->
-        <img src="{{ url_for('static', filename='img/final_brain.webp') }}" 
-          alt="AI Brain"
-          loading = "eager"
-          fetchpriority="high"
-          decoding="async"
-          class="hero-brain">
-
+      <div class="relative flex items-center justify-center hero-visual">
+        <div class="absolute inset-0 bg-gradient-to-tr from-accent/20 to-secondary/20 rounded-full blur-[100px] -z-10">
+        </div>
+        <img src="{{ url_for('static', filename='img/hero_abstract.jpg') }}" alt="3D Abstract Tech Concept"
+          loading="eager" fetchpriority="high" decoding="async"
+          class="w-full max-w-lg object-contain drop-shadow-2xl hero-image-float rounded-3xl border border-line/50">
       </div>
-
     </div>
-
   </section>
-  <!-- ============ ABOUT ============ -->
-  <section id="about" class="relative py-28 border-t border-line">
-    <div class="max-w-6xl mx-auto px-6">
-      <p class="font-mono text-xs text-violet uppercase tracking-[0.3em] mb-3 reveal">#
-        01 — about.py</p>
-      <h2 class="font-display text-3xl sm:text-4xl font-600 mb-14 reveal">Built
-        for turning data into decisions.</h2>
 
-      <div class="grid md:grid-cols-5 gap-10 items-start">
-        <div class="md:col-span-3 space-y-5 text-muted leading-relaxed reveal">
+  <!-- ============ ABOUT ============ -->
+  <section id="about" class="relative py-28 border-t border-line/50">
+    <div class="max-w-6xl mx-auto px-6">
+      <div
+        class="inline-block px-3 py-1 rounded-full bg-surface2 border border-line text-xs font-semibold uppercase tracking-widest text-muted mb-6 reveal">
+        About Me</div>
+      <h2 class="font-display text-4xl sm:text-5xl font-600 mb-14 tracking-tight text-ink reveal">Built for turning data
+        into decisions.</h2>
+
+      <div class="grid md:grid-cols-5 gap-12 items-start">
+        <div class="md:col-span-3 space-y-6 text-muted text-lg leading-relaxed reveal">
           <p>
-            I'm an AI/ML engineer based in {{ profile.location }}, working
-            across the full
-            lifecycle of an AI product — from cleaning a messy dataset to
-            shipping a
-            model behind a REST API a frontend can actually call.
+            I'm an AI/ML engineer based in <span class="text-ink font-medium">{{ profile.location }}</span>, working
+            across the full lifecycle of an AI product — from cleaning a messy dataset to shipping a model behind a
+            robust API.
           </p>
           <p>
-            Most of my recent work sits at the intersection of <span class="text-ink">generative AI</span>
-            and <span class="text-ink">practical backend engineering</span>:
-            candidate-matching
-            automation, time-series forecasting, and LLM-powered decision
-            support —
-            all wrapped in Django or Flask, with clean, model-serving-ready
-            code.
+            Most of my recent work sits at the intersection of <span class="text-ink font-medium">generative AI</span>
+            and <span class="text-ink font-medium">scalable backend engineering</span>: candidate-matching automation,
+            time-series forecasting, and LLM-powered decision support.
           </p>
           <p>
-            I care about code that reads like documentation and dashboards
-            that make
-            a model's output legible to someone who isn't reading the
-            training
-            logs.
+            I care about code that reads like documentation and delivering solutions that make complex model outputs
+            legible to end-users.
           </p>
         </div>
 
-        <div class="md:col-span-2 rounded-lg border border-line bg-surface/60 backdrop-blur-sm p-5 reveal">
-          <div class="flex gap-1.5 mb-4">
-            <span class="w-2.5 h-2.5 rounded-full bg-[#FF5F57]"></span>
-            <span class="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]"></span>
-            <span class="w-2.5 h-2.5 rounded-full bg-[#28C840]"></span>
-          </div>
-          <div class="grid grid-cols-2 gap-5 font-mono">
+        <div class="md:col-span-2 glass-panel p-8 reveal">
+          <div class="grid grid-cols-2 gap-8">
             {% for stat in profile.stats %}
-            <div>
-              <div class="text-2xl text-cyan font-600">{{ stat.value
-                }}</div>
-              <div class="text-xs text-muted mt-1">{{ stat.label }}</div>
+            <div class="flex flex-col">
+              <span
+                class="text-4xl font-display font-700 text-transparent bg-clip-text bg-gradient-to-r from-accent to-secondary mb-2">{{
+                stat.value }}</span>
+              <span class="text-sm font-medium text-muted uppercase tracking-wider">{{ stat.label }}</span>
             </div>
             {% endfor %}
           </div>
@@ -259,24 +208,21 @@
   </section>
 
   <!-- ============ SKILLS ============ -->
-  <section id="skills" class="relative py-28 border-t border-line bg-surface/30">
+  <section id="skills" class="relative py-28 bg-surface/30">
     <div class="max-w-6xl mx-auto px-6">
-      <p class="font-mono text-xs text-violet uppercase tracking-[0.3em] mb-3 reveal">#
-        02 — stack.py</p>
-      <h2 class="font-display text-3xl sm:text-4xl font-600 mb-14 reveal">The
-        imports that matter.</h2>
+      <div
+        class="inline-block px-3 py-1 rounded-full bg-surface2 border border-line text-xs font-semibold uppercase tracking-widest text-muted mb-6 reveal">
+        Core Expertise</div>
+      <h2 class="font-display text-4xl sm:text-5xl font-600 mb-14 tracking-tight reveal">Technologies I work with.</h2>
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {% for group in skills %}
-        <div
-          class="rounded-lg border border-line bg-surface/60 p-5 hover:border-cyan/50 hover:shadow-glow-cyan-sm transition-all duration-300 reveal">
-          <p class="font-mono text-[11px] text-muted mb-3 leading-snug break-words">{{
-            group.import_line }}</p>
-          <h3 class="font-display font-600 text-ink mb-3">{{ group.category
-            }}</h3>
-          <div class="flex flex-wrap gap-1.5">
-            {% for item in group.tags %}
-            <span class="text-[11px] font-mono px-2 py-1 rounded bg-bg border border-line text-muted">{{
+        <div class="glass-panel p-8 hover:-translate-y-1 transition-transform duration-300 group reveal">
+          <h3 class="font-display font-600 text-xl text-ink mb-6 group-hover:text-accent transition-colors">{{
+            group.category }}</h3>
+          <div class="flex flex-wrap gap-2">
+            {% for item in group.tags.split(',') %}
+            <span class="text-sm font-medium px-3 py-1.5 rounded-lg bg-surface2 border border-line/50 text-muted">{{
               item }}</span>
             {% endfor %}
           </div>
@@ -287,62 +233,60 @@
   </section>
 
   <!-- ============ PROJECTS ============ -->
-  <section id="projects" class="relative py-28 border-t border-line">
+  <section id="projects" class="relative py-28 border-t border-line/50">
     <div class="max-w-6xl mx-auto px-6">
-      <p class="font-mono text-xs text-violet uppercase tracking-[0.3em] mb-3 reveal">#
-        03 — projects/</p>
-      <h2 class="font-display text-3xl sm:text-4xl font-600 mb-14 reveal">Things
-        I've shipped.</h2>
+      <div
+        class="inline-block px-3 py-1 rounded-full bg-surface2 border border-line text-xs font-semibold uppercase tracking-widest text-muted mb-6 reveal">
+        Selected Work</div>
+      <h2 class="font-display text-4xl sm:text-5xl font-600 mb-14 tracking-tight reveal">Things I've shipped.</h2>
 
-      <div class="grid md:grid-cols-2 gap-6">
+      <div class="grid md:grid-cols-2 gap-8">
         {% for p in projects %}
         <article
-          class="group rounded-lg border border-line bg-surface/60 overflow-hidden hover:border-violet/50 hover:shadow-glow-violet-sm transition-all duration-300 reveal {{ 'md:col-span-2' if loop.first else '' }}">
-          <div class="flex items-center gap-2 px-4 py-3 border-b border-line bg-bg/40">
-            <span class="w-2.5 h-2.5 rounded-full bg-[#FF5F57]"></span>
-            <span class="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]"></span>
-            <span class="w-2.5 h-2.5 rounded-full bg-[#28C840]"></span>
-            <span class="font-mono text-xs text-muted ml-2">{{ p.file
-              }}</span>
-            <span class="ml-auto font-mono text-[11px] text-muted">{{
-              p.period
-              }}</span>
-          </div>
-          <div class="p-6">
-            <h3 class="font-display text-xl font-600 mb-2 text-ink group-hover:text-cyan transition-colors">{{
-              p.name }}</h3>
-            <p class="text-muted text-sm leading-relaxed mb-5">{{
-              p.description }}</p>
-            <div class="flex flex-wrap gap-1.5 mb-6">
-              {% for t in p.tech %}
-              <span class="text-[11px] font-mono px-2 py-1 rounded bg-bg border border-line text-cyan/80">{{
-                t }}</span>
+          class="glass-panel group overflow-hidden reveal {{ 'md:col-span-2 flex flex-col md:flex-row' if loop.first else 'flex flex-col' }}">
+          <div class="p-8 flex-1 flex flex-col justify-center">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-sm font-medium text-secondary">{{ p.period }}</span>
+            </div>
+            <h3 class="font-display text-2xl font-700 mb-4 text-ink group-hover:text-accent transition-colors">{{ p.name
+              }}</h3>
+            <p class="text-muted text-base leading-relaxed mb-8 flex-1">{{ p.description }}</p>
+
+            <div class="flex flex-wrap gap-2 mb-8">
+              {% for t in p.tech.split(',') %}
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-accent/10 text-accent">{{ t }}</span>
               {% endfor %}
             </div>
-            <div class="flex gap-4 font-mono text-xs">
+
+            <div class="flex items-center gap-6 mt-auto">
               {% if p.github %}
               <a href="{{ p.github }}" target="_blank" rel="noopener"
-                class="flex items-center gap-1.5 text-muted hover:text-cyan transition-colors">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                class="inline-flex items-center gap-2 text-sm font-semibold text-ink hover:text-accent transition-colors">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                   <path
                     d="M12 .5C5.7.5.5 5.7.5 12c0 5 3.3 9.3 7.9 10.8.6.1.8-.3.8-.6v-2.2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2.9-.3 2-.4 3-.4s2.1.1 3 .4c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.8C23.5 5.7 18.3.5 12 .5z" />
                 </svg>
-                github
+                Source
               </a>
               {% endif %}
               {% if p.live %}
               <a href="{{ p.live }}" target="_blank" rel="noopener"
-                class="flex items-center gap-1.5 text-muted hover:text-violet transition-colors">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
-                  <path d="M15 3h6v6" />
-                  <path d="M10 14L21 3" />
+                class="inline-flex items-center gap-2 text-sm font-semibold text-ink hover:text-secondary transition-colors">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
                 </svg>
-                live
+                Live Preview
               </a>
               {% endif %}
             </div>
           </div>
+          {% if loop.first %}
+          <!-- For the featured first project, optionally add an image space if desired -->
+          <!-- <div class="hidden md:block w-2/5 bg-surface2/50"></div> -->
+          {% endif %}
         </article>
         {% endfor %}
       </div>
@@ -350,76 +294,84 @@
   </section>
 
   <!-- ============ EXPERIENCE / LOG ============ -->
-  <section id="experience" class="relative py-28 border-t border-line bg-surface/30">
+  <section id="experience" class="relative py-28 border-t border-line/50 bg-surface/30">
     <div class="max-w-6xl mx-auto px-6">
-      <p class="font-mono text-xs text-violet uppercase tracking-[0.3em] mb-3 reveal">#
-        04 — git log --experience</p>
-      <h2 class="font-display text-3xl sm:text-4xl font-600 mb-14 reveal">Commit
-        history.</h2>
+      <div
+        class="inline-block px-3 py-1 rounded-full bg-surface2 border border-line text-xs font-semibold uppercase tracking-widest text-muted mb-6 reveal">
+        Career</div>
+      <h2 class="font-display text-4xl sm:text-5xl font-600 mb-14 tracking-tight reveal">Experience.</h2>
 
-      <div class="relative pl-8 border-l border-line space-y-12">
+      <div class="relative pl-8 sm:pl-10 border-l-2 border-line/50 space-y-16">
         {% for e in experience %}
         <div class="relative reveal">
-          <span class="absolute -left-[38px] top-1 w-3.5 h-3.5 rounded-full bg-bg border-2 border-cyan"></span>
-          <p class="font-mono text-xs text-muted mb-1">
-            <span class="text-cyan">commit {{ e.commit }}</span> · {{
-            e.period
-            }}
-          </p>
-          <h3 class="font-display text-xl font-600 mb-1">{{ e.role }}</h3>
-          <p class="font-mono text-sm text-violet mb-3">@{{ e.org }}</p>
-          <ul class="space-y-1.5 text-muted text-sm leading-relaxed">
-            {% for point in e.points %}
-            <li class="flex gap-2"><span class="text-cyan mt-0.5">+</span><span>{{ point
-                }}</span></li>
+          <div
+            class="absolute -left-[41px] sm:-left-[49px] top-1.5 w-5 h-5 rounded-full bg-bg border-4 border-accent shadow-[0_0_15px_rgba(99,102,241,0.5)]">
+          </div>
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+            <h3 class="font-display text-2xl font-700 text-ink">{{ e.role }}</h3>
+            <span class="text-sm font-medium text-muted mt-1 sm:mt-0">{{ e.period }}</span>
+          </div>
+          <p class="text-lg text-secondary font-medium mb-4">{{ e.org }}</p>
+          <ul class="space-y-3 text-muted text-base leading-relaxed">
+            {% for point in e.points.strip().split('\n') %}
+            <li class="flex items-start gap-3">
+              <span class="text-accent mt-1.5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              <span>{{ point }}</span>
+            </li>
             {% endfor %}
           </ul>
         </div>
         {% endfor %}
       </div>
 
-      <!-- Education -->
-      <div class="mt-24">
-        <p class="font-mono text-xs text-violet uppercase tracking-[0.3em] mb-3 reveal">#
-          education.md</p>
-        <h3 class="font-display text-2xl font-600 mb-8 reveal">Education &
-          certifications.</h3>
-        <div class="grid sm:grid-cols-2 gap-4">
+      <!-- Education & Certifications -->
+      <div class="mt-28">
+        <div
+          class="inline-block px-3 py-1 rounded-full bg-surface2 border border-line text-xs font-semibold uppercase tracking-widest text-muted mb-6 reveal">
+          Background</div>
+        <h3 class="font-display text-3xl font-600 mb-10 reveal">Education & Certifications.</h3>
+
+        <div class="grid sm:grid-cols-2 gap-6">
           {% for ed in education %}
           {% set card %}
-          <p class="font-display font-600 text-ink mb-1 group-hover:text-cyan transition-colors">{{
-            ed.degree }}</p>
-          <p class="text-sm text-muted">{{ ed.school }}</p>
-          <p class="font-mono text-xs text-cyan mt-2">{{ ed.period }}{% if
-            ed.detail %} · {{ ed.detail }}{% endif %}</p>
+          <p class="font-display text-xl font-600 text-ink mb-2 group-hover:text-accent transition-colors">{{ ed.degree
+            }}</p>
+          <p class="text-base text-muted mb-3">{{ ed.school }}</p>
+          <p class="text-sm font-medium text-secondary">{{ ed.period }}{% if ed.detail %} <span
+              class="text-line mx-2">|</span> <span class="text-muted">{{ ed.detail }}</span>{% endif %}</p>
           {% endset %}
+
           {% if ed.link %}
           <a href="{{ ed.link }}" target="_blank" rel="noopener"
-            class="group rounded-lg border border-line bg-surface/60 p-5 hover:border-cyan/50 transition-colors reveal">{{
-            card }}</a>
+            class="glass-panel p-8 block group hover:-translate-y-1 transition-all duration-300 reveal">
+            {{ card }}
+          </a>
           {% else %}
-          <div class="rounded-lg border border-line bg-surface/60 p-5 reveal">{{
-            card }}</div>
+          <div class="glass-panel p-8 reveal">{{ card }}</div>
           {% endif %}
           {% endfor %}
+
           {% for cert in certifications %}
-          <div class="rounded-lg border border-line bg-surface/60 p-5 reveal flex gap-4 items-start">
+          <div
+            class="glass-panel p-6 reveal flex gap-5 items-center hover:-translate-y-1 transition-transform duration-300">
             {% if cert.image %}
             <img src="{{ url_for('static', filename=cert.image) }}" alt="{{ cert.name }}"
-              class="w-14 h-14 rounded object-cover border border-line flex-shrink-0">
+              class="w-16 h-16 rounded-xl object-cover bg-surface">
             {% else %}
             <div
-              class="w-14 h-14 rounded border border-line flex items-center justify-center text-violet flex-shrink-0">🎖
-            </div>
+              class="w-16 h-16 rounded-xl bg-gradient-to-br from-accent/20 to-secondary/20 border border-accent/20 flex items-center justify-center text-2xl flex-shrink-0">
+              🏆</div>
             {% endif %}
             <div>
-              <p class="font-display font-600 text-ink mb-1">{{ cert.name
-                }}</p>
-              <p class="font-display font-600 text-ink mb-1">{{ cert.company
-                }}</p>
-              <a href="{{ url_for('static', filename=cert.image) }}">
-                <p class="font-mono text-xs text-violet">Certification</p>
-              </a>
+              <p class="font-display text-lg font-600 text-ink mb-1">{{ cert.name }}</p>
+              <p class="text-sm text-muted mb-2">{{ cert.company }}</p>
+              <a href="{{ url_for('static', filename=cert.image) }}"
+                class="text-xs font-medium text-accent hover:underline">View Credential &rarr;</a>
             </div>
           </div>
           {% endfor %}
@@ -428,163 +380,123 @@
     </div>
   </section>
 
-  <!-- ============ RESOURCES ============ -->
-  <section id="resources" class="relative py-28 border-t border-line bg-surface/30">
-    <div class="max-w-6xl mx-auto px-6">
-      <p class="font-mono text-xs text-violet uppercase tracking-[0.3em] mb-3 reveal">#
-        05 — resources/</p>
-      <h2 class="font-display text-3xl sm:text-4xl font-600 mb-6 reveal">Notes,
-        decks & recordings.</h2>
-      <p class="text-muted max-w-xl mb-10 reveal">
-        Documents, slide decks, and videos related to my work — download,
-        watch, or read straight from here.
-      </p>
 
-      {% if resources %}
-      <div class="flex flex-wrap gap-2 mb-10 reveal" id="resource-filters">
-        <button data-filter="all"
-          class="resource-filter-btn active font-mono text-xs px-3 py-1.5 rounded-full border border-cyan text-cyan">
-          all
-        </button>
-        {% for t in resource_types %}
-        <button data-filter="{{ t }}"
-          class="resource-filter-btn font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-cyan hover:text-cyan transition-colors">
-          {{ t }}
-        </button>
-        {% endfor %}
-      </div>
-
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5" id="resource-grid">
-        {% for r in resources %}
-        <a href="{{ url_for('resource_detail', resource_id=r.id) }}" data-type="{{ r.resource_type }}"
-          class="resource-card group rounded-lg border border-line bg-surface/60 overflow-hidden hover:border-cyan/50 hover:shadow-glow-cyan-sm transition-all duration-300 reveal flex flex-col">
-          {% if r.preview_image %}
-          <img src="{{ url_for('static', filename=r.preview_image) }}" alt
-            class="w-full h-36 object-cover border-b border-line">
-          {% endif %}
-          <div class="p-5 flex flex-col flex-1">
-            <div class="flex items-center justify-between mb-4">
-              <span
-                class="inline-flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded bg-bg border border-line text-violet">
-                {% if r.resource_type == 'video' %}▶ video
-                {% elif r.resource_type == 'ppt' %}▤ slides
-                {% elif r.resource_type == 'pdf' %}▥ pdf
-                {% elif r.resource_type == 'docx' %}▥ docx
-                {% elif r.resource_type == 'link' %}↗ link
-                {% else %}✎ note{% endif %}
-              </span>
-              <span class="text-[11px] font-mono text-muted">
-                {% if r.resource_type == 'video' and r.duration_label %}{{
-                r.duration_label }}
-                {% elif r.size_label %}{{ r.size_label }}
-                {% elif r.category %}{{ r.category }}{% endif %}
-              </span>
-            </div>
-            <h3 class="font-display font-600 text-ink mb-2 group-hover:text-cyan transition-colors">{{
-              r.title }}</h3>
-            <p class="text-sm text-muted leading-relaxed line-clamp-3">{{
-              r.description }}</p>
-            <span class="mt-4 font-mono text-xs text-cyan opacity-0 group-hover:opacity-100 transition-opacity">open
-              →</span>
-          </div>
-        </a>
-        {% endfor %}
-      </div>
-      {% else %}
-      <p class="text-muted font-mono text-sm reveal">Nothing here yet —
-        check
-        back soon.</p>
-      {% endif %}
-    </div>
-  </section>
 
   <!-- ============ CONTACT ============ -->
-  <section id="contact" class="relative py-28 border-t border-line">
+  <section id="contact" class="relative py-28 border-t border-line/50 bg-surface/30">
     <div class="max-w-6xl mx-auto px-6">
-      <p class="font-mono text-xs text-violet uppercase tracking-[0.3em] mb-3 reveal">#
-        06 — contact.py</p>
-      <h2 class="font-display text-3xl sm:text-4xl font-600 mb-6 reveal">Let's
-        build something.</h2>
-      <p class="text-muted max-w-xl mb-14 reveal">
-        Open to AI/ML and backend engineering roles, freelance builds, and
-        interesting collaborations. Drop a message or reach out directly.
+      <div
+        class="inline-block px-3 py-1 rounded-full bg-surface2 border border-line text-xs font-semibold uppercase tracking-widest text-muted mb-6 reveal">
+        Contact</div>
+      <h2 class="font-display text-4xl sm:text-5xl font-600 mb-6 tracking-tight reveal">Let's build something.</h2>
+      <p class="text-muted text-lg max-w-xl mb-14 reveal">
+        Open for collaborations, exciting projects, or engineering roles. Drop a message below and I'll get back to you.
       </p>
 
-      <div class="grid md:grid-cols-5 gap-10">
-        <form id="contact-form" class="md:col-span-3 space-y-5 reveal">
-          <div>
-            <label class="block font-mono text-xs text-muted mb-2" for="name">name =</label>
-            <input required id="name" name="name" type="text" placeholder="&quot;Your Name&quot;"
-              class="w-full bg-surface border border-line rounded px-4 py-3 text-ink placeholder:text-muted/50 font-mono text-sm focus:outline-none focus:border-cyan transition-colors">
+      <div class="grid lg:grid-cols-5 gap-12">
+        <form id="contact-form" class="lg:col-span-3 space-y-6 glass-panel p-8 reveal">
+          <div class="grid sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-muted mb-2" for="name">Name</label>
+              <input required id="name" name="name" type="text" placeholder="John Doe"
+                class="w-full bg-bg/50 border border-line rounded-lg px-4 py-3.5 text-ink placeholder:text-muted/40 text-base focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all shadow-inner">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-muted mb-2" for="email">Email</label>
+              <input required id="email" name="email" type="email" placeholder="john@example.com"
+                class="w-full bg-bg/50 border border-line rounded-lg px-4 py-3.5 text-ink placeholder:text-muted/40 text-base focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all shadow-inner">
+            </div>
           </div>
           <div>
-            <label class="block font-mono text-xs text-muted mb-2" for="email">email =</label>
-            <input required id="email" name="email" type="email" placeholder="&quot;you@example.com&quot;"
-              class="w-full bg-surface border border-line rounded px-4 py-3 text-ink placeholder:text-muted/50 font-mono text-sm focus:outline-none focus:border-cyan transition-colors">
-          </div>
-          <div>
-            <label class="block font-mono text-xs text-muted mb-2" for="message">message =</label>
-            <textarea required id="message" name="message" rows="5"
-              placeholder="&quot;&quot;&quot;Let's talk about...&quot;&quot;&quot;"
-              class="w-full bg-surface border border-line rounded px-4 py-3 text-ink placeholder:text-muted/50 font-mono text-sm focus:outline-none focus:border-cyan transition-colors resize-none"></textarea>
+            <label class="block text-sm font-medium text-muted mb-2" for="message">Message</label>
+            <textarea required id="message" name="message" rows="5" placeholder="Tell me about your project..."
+              class="w-full bg-bg/50 border border-line rounded-lg px-4 py-3.5 text-ink placeholder:text-muted/40 text-base focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all shadow-inner resize-none"></textarea>
           </div>
           <button type="submit" id="contact-submit"
-            class="px-6 py-3 rounded bg-cyan text-bg font-mono text-sm font-medium hover:shadow-glow-cyan transition-all">
-            send_message()
+            class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-accent to-secondary text-white font-medium hover:shadow-glow transition-all hover:-translate-y-0.5">
+            Send Message
           </button>
-          <p id="contact-status" class="font-mono text-xs mt-2"></p>
+          <p id="contact-status" class="text-sm font-medium mt-4"></p>
         </form>
 
-        <div class="md:col-span-2 space-y-4 reveal">
+        <div class="lg:col-span-2 space-y-4 reveal flex flex-col justify-center">
           <a href="mailto:{{ profile.email }}"
-            class="flex items-center gap-3 rounded-lg border border-line bg-surface/60 p-4 hover:border-cyan/50 transition-colors group">
-            <span class="text-cyan font-mono text-xs">→</span>
-            <span class="text-sm text-ink group-hover:text-cyan transition-colors">{{
-              profile.email }}</span>
+            class="glass-panel p-6 flex items-center gap-4 hover:border-accent hover:bg-surface2 transition-all group">
+            <div
+              class="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-colors">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+            <div>
+              <p class="text-xs font-medium text-muted uppercase tracking-wider mb-1">Email</p>
+              <p class="text-base font-medium text-ink">{{ profile.email }}</p>
+            </div>
           </a>
+
           {% if profile.contact_number %}
           <a href="tel:{{ profile.contact_number|replace(' ', '') }}"
-            class="flex items-center gap-3 rounded-lg border border-line bg-surface/60 p-4 hover:border-cyan/50 transition-colors group">
-            <span class="text-cyan font-mono text-xs">→</span>
-            <span class="text-sm text-ink group-hover:text-cyan transition-colors">{{
-              profile.contact_number }}</span>
+            class="glass-panel p-6 flex items-center gap-4 hover:border-accent hover:bg-surface2 transition-all group">
+            <div
+              class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-white transition-colors">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                </path>
+              </svg>
+            </div>
+            <div>
+              <p class="text-xs font-medium text-muted uppercase tracking-wider mb-1">Phone</p>
+              <p class="text-base font-medium text-ink">{{ profile.contact_number }}</p>
+            </div>
           </a>
           {% endif %}
-          <a href="{{ profile.github }}" target="_blank" rel="noopener"
-            class="flex items-center gap-3 rounded-lg border border-line bg-surface/60 p-4 hover:border-cyan/50 transition-colors group">
-            <span class="text-cyan font-mono text-xs">→</span>
-            <span class="text-sm text-ink group-hover:text-cyan transition-colors">github.com/Arshdeep6840</span>
-          </a>
-          <a href="{{ profile.linkedin }}" target="_blank" rel="noopener"
-            class="flex items-center gap-3 rounded-lg border border-line bg-surface/60 p-4 hover:border-cyan/50 transition-colors group">
-            <span class="text-cyan font-mono text-xs">→</span>
-            <span
-              class="text-sm text-ink group-hover:text-cyan transition-colors">linkedin.com/in/arshdeep-singh-ai</span>
-          </a>
-          <div class="flex items-center gap-3 rounded-lg border border-line bg-surface/60 p-4">
-            <span class="text-violet font-mono text-xs">◎</span>
-            <span class="text-sm text-muted">{{ profile.location }}</span>
+
+          <div class="grid grid-cols-2 gap-4">
+            <a href="{{ profile.github }}" target="_blank" rel="noopener"
+              class="glass-panel p-5 flex flex-col items-center justify-center gap-3 hover:border-accent hover:bg-surface2 transition-all group">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+                class="text-muted group-hover:text-ink transition-colors">
+                <path
+                  d="M12 .5C5.7.5.5 5.7.5 12c0 5 3.3 9.3 7.9 10.8.6.1.8-.3.8-.6v-2.2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2.9-.3 2-.4 3-.4s2.1.1 3 .4c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.8C23.5 5.7 18.3.5 12 .5z" />
+              </svg>
+              <span class="text-sm font-medium text-muted group-hover:text-ink transition-colors">GitHub</span>
+            </a>
+            <a href="{{ profile.linkedin }}" target="_blank" rel="noopener"
+              class="glass-panel p-5 flex flex-col items-center justify-center gap-3 hover:border-accent hover:bg-surface2 transition-all group">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+                class="text-muted group-hover:text-ink transition-colors">
+                <path
+                  d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+              </svg>
+              <span class="text-sm font-medium text-muted group-hover:text-ink transition-colors">LinkedIn</span>
+            </a>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <footer class="border-t border-line py-8">
-    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p class="font-mono text-xs text-muted"># built with Flask, Tailwind
-        &amp; a bit of neural sparkle</p>
-      <p class="font-mono text-xs text-muted">© <span id="year"></span> {{
-        profile.name }}</p>
+  <footer class="border-t border-line/50 py-10 bg-bg">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div
+          class="w-8 h-8 rounded-lg bg-gradient-to-br from-accent to-secondary flex items-center justify-center opacity-80">
+          <img src="{{ url_for('static', filename='img/AS1.png') }}" alt="AS"
+            class="w-5 h-5 object-contain mix-blend-screen">
+        </div>
+        <span class="font-display font-600 text-lg text-ink">Arshdeep<span class="text-accent">.</span></span>
+      </div>
+      <p class="text-sm text-muted">Crafted with Flask & TailwindCSS.</p>
+      <p class="text-sm text-muted font-medium">© <span id="year"></span> {{ profile.name }}</p>
     </div>
   </footer>
 
   <script>
     const ROLES = {{ profile.roles| tojson }};
   </script>
-  <script src="{{ url_for('static', filename='js/particles.js') }}"></script>
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-  </script>
 </body>
 
 </html>
