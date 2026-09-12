@@ -4,5 +4,4 @@ env/
 .env/
 instance/*.db
 static/uploads/*
-!static/uploads/.gitkeep
 .env
